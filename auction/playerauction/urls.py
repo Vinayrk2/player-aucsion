@@ -11,4 +11,6 @@ urlpatterns = [
     path('playerprofile', views.player_profile, name='player_profile'),
     path('createauction', views.create_auction, name='create_auction'),
     path('auctionadmin', views.auction_admin, name='auction_admin'),
+    path('playersummery', views.player_summery, name='player_summery'),
+    path('help',views.helppage, name='helppage')
 ]

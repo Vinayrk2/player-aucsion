@@ -29,4 +29,8 @@ def create_auction(request):
 def auction_admin(request):
     return render(request, 'auction_admin.html', {})
 
-    
+def player_summery(request):
+    return render(request, 'player_summery.html', {})
+
+def helppage(request):
+    return render(request, 'helppage.html', {})
