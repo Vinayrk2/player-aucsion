@@ -9,6 +9,7 @@ class AuctionAdmin(models.Model):
     adminId = models.CharField(max_length=4)
     email    = models.EmailField(max_length=200)
     password = models.CharField(max_length=128)
+    subscription = models.BooleanField(default=True)
 
     def save(self, *args, **kwargs):
         self.password = make_password(self.password)
@@ -19,12 +20,12 @@ class Team(models.Model):
     name    = models.CharField(max_length=35)
     email   = models.EmailField(max_length=200)
     password = models.CharField(max_length=128)
-    points  = models.IntegerField(default=0)
     def save(self, *args, **kwargs):
         self.password = make_password(self.password)
         super().save(*args, **kwargs)
-    logo    = models.TextField()
-    captainId = models.CharField(max_length=max_length_for_id, default=None)
+    logo    = models.TextField(default=None, null=True)
+    captainId = models.OneToOneField('Player', on_delete=models.DO_NOTHING)
+
 
 
 class Player(models.Model):
@@ -33,10 +34,10 @@ class Player(models.Model):
     password = models.CharField(max_length=128)
     email    = models.EmailField(max_length=200,unique=True)
     role      = models.CharField(max_length=50)
-    age      = models.IntegerField(max_length=2)
+    age      = models.IntegerField()
     battingStyle = models.TextField(null=True)
     bowlingStyle = models.TextField(null=True)
-    gender    = models.SmallIntegerField(max_length=1)
+    gender    = models.SmallIntegerField()
     image     = models.TextField(default=None, null=True)
     def save(self, *args, **kwargs):
         self.password = make_password(self.password)
@@ -44,7 +45,7 @@ class Player(models.Model):
 
 
 class Login(models.Model):
-    role  = models.SmallIntegerField(max_length=1)
+    role  = models.SmallIntegerField()
     email = models.CharField(max_length=200, unique=True)
     password = models.CharField(max_length=200)
 
@@ -53,14 +54,22 @@ class Auction(models.Model):
     auctionId = models.CharField(max_length=max_length_for_id)
     auctionName = models.CharField(max_length=50)
     adminId   = models.ForeignKey('AuctionAdmin', on_delete=models.PROTECT)
-    date = models.DateField(auto_created=True)
-    initialPoint = models.IntegerField()
-    maxBid = models.IntegerField()
+    date = models.DateField(auto_now=True)
+    initialPoint = models.IntegerField(default=0)
+    maxBid = models.IntegerField(default=0)
     location = models.CharField(max_length=50)
-    status  = models.SmallIntegerField(max_length=1)
+    status  = models.SmallIntegerField(default=0)
+    team  = models.ManyToManyField('Auction', through='Auction_teams')
 
+
+# 0 - Remains, 1 - sold, 2 - unsold
 class AuctionPlayer(models.Model):
     auctionId = models.ForeignKey('Auction', on_delete=models.CASCADE)
     playerId = models.ForeignKey('Player', on_delete=models.CASCADE)
-    status = models.SmallIntegerField(max_length=1)
+    status = models.SmallIntegerField(default=0)
     teamId = models.ForeignKey('Team', on_delete=models.DO_NOTHING)
+
+class Auction_teams(models.Model):
+    auctionId = models.ForeignKey('Auction', on_delete=models.CASCADE)
+    teamId    = models.ForeignKey('Team', on_delete=models.CASCADE)
+    points    = models.IntegerField(default=0)
