@@ -10,8 +10,10 @@
     <form action="playerregister" method="post">
         {% csrf_token %}
         Name : <input type="text" name="name" id="name"><br>
+        UserName : <input type="text" name="userId">
         Email : <input type="email" name="email" id="email"><br>
         Age : <input type="number" name="age" id="age"><br>
+        Password : <input type="password" name="password" id=""><br>
         Role : <select name="role" id="role">
             <option value="allrounder">All Rounder</option>
             <option value="batsman">Bats Man</option>
@@ -20,11 +22,11 @@
 
         <br>
         BattingStyle : <select name="battingstyle" id="battingstyle">
-            <option value="spinner"> Spinner</option>
+            <option value="spinner" selected> Spinner</option>
         </select>
 
         BowlingStyle : <select name="bowligstyle" id="battingstyle">
-            <option value="spinner"> Spinner</option>
+            <option value="spinner" selected> Spinner</option>
         </select>
 
         Gender : <input type="radio" name="gender" value="male"> male
@@ -32,7 +34,7 @@
         
         Image : <input type="file" name="image" id="image" type="image/*">
         
-
+        
         <input type="submit" value="Enter To The System">
     
     </form>

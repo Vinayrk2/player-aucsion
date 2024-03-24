@@ -29,7 +29,7 @@ class Team(models.Model):
 
 
 class Player(models.Model):
-    playerId = models.CharField(max_length=max_length_for_id)
+    playerId = models.CharField(max_length=30)
     name      = models.CharField(max_length=30)
     password = models.CharField(max_length=128)
     email    = models.EmailField(max_length=200,unique=True)

@@ -14,22 +14,26 @@ def login(request):
     if(request.method == "POST"):
         data = request.POST
         try:
-            user = Login.objects.get(email=data.get('email'), password=data.get("password"))
-            if(user ):
-                # Auction Admin
-                if(user.role == 1):
-                    return redirect("auction_admin")
-                
-                # Player
-                elif(user.role == 3):
-                    player = Player.objects.filter(email=data.get("email"))
-                    return redirect("player_profile")
+            user = Login.objects.get(email=data.get('email'))
+            print(user.email)
+            if user.password == getPassword(data.get("password")):
+                if(user):
+                    # Auction Admin
+                    if(user.role == 1):
+                        return render(request, "admin_home.html",{})
+                    
+                    # Player
+                    elif(user.role == 3):
 
-                # Team
-                elif(user.role == 2):
-                    return redirect("team_profile")
-        except:
-            return HttpResponse(content="Invalid Credentials")
+                        player = Player.objects.filter(email=data.get("email"))
+                        request.session['player'] = player
+                        return render(request, "player_profile.html",{})
+
+                    # Team
+                    elif(user.role == 2):
+                        return render(request, "team_home.html",{})
+        except Exception as e:
+            return HttpResponse(content=e)
 
     return render(request, 'login.html', {})
 
@@ -44,21 +48,25 @@ def player_register(request):
             player = Player()
             player.name = data.get('name')
             player.email = data.get('email')
+            player.passwoord = data.get('password')
             player.age = data.get('age')
             player.role = data.get("role")
             player.battingStyle = data.get('battingStyle')
             player.bowlingStyle = data.get('bowlingStyle')
             player.password = data.get('password')
             player.gender = 1 if data.get('gender') == "male" else 0
-            player.image = storeImage()
-            player.playerId = getPlayerId()
-
+            player.image = ""
+            player.playerId = data.get('userId')
+            print(data.get('image'))
             try:
                 if(player.save()):
                     newlogin = Login
                     newlogin.email = player.email
                     newlogin.password = player.password
                     newlogin.role = 3
+                    newlogin.save()
+
+                    request.session['player'] = player
                     response = {
                         "Status":"Ok",
                         "message":"Registered successfully"
@@ -68,8 +76,8 @@ def player_register(request):
                         "Status":"Error",
                         "message":"Player Already Exists"
                     }
-            except:
-                return HttpResponse(content="Error To Register")
+            except Exception as e:
+                return HttpResponse(e)
             else:
                 return redirect("player_profile")
     return render(request, 'player_register.html', {})
@@ -81,7 +89,10 @@ def old_auction(request):
     return render(request, 'old_auction.html', {})
 
 def player_profile(request):
-    return render(request, 'player_profile.html', {})
+    if request.session.get("user"):
+        return render(request, 'player_profile.html', {})
+    else:
+        return HttpResponse(content="<script>alert('You have to login first'); window.location.assign('/login'); </script>")
 
 def create_auction(request):
     return render(request, 'create_auction.html', {})
