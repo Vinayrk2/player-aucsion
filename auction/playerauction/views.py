@@ -1,87 +1,102 @@
 from django.shortcuts import render,redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from appdata.models import Player, Auction, AuctionAdmin, AuctionPlayer, Team, Login
 from playerauction.validate import *
 from sqlite3 import IntegrityError
+from django.contrib.auth import authenticate
+from django.contrib.auth.hashers import check_password
+from appdata.forms import *
+import json
+from django.http import JsonResponse
 
 # Create your views here.
 
 def index(request):
     return render(request, 'index.html', {})
 
-def login(request):
+def login(request, user):
+    if(request.session.get('user') != None):
+        return redirect('index')
 
-    if(request.method == "POST"):
-        data = request.POST
+    if request.method == "POST":
+        print(request.POST)
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        role  = request.POST.get("role")
+        
         try:
-            user = Login.objects.get(email=data.get('email'))
-            print(user.email)
-            if user.password == getPassword(data.get("password")):
-                if(user):
-                    # Auction Admin
-                    if(user.role == 1):
-                        return render(request, "admin_home.html",{})
-                    
-                    # Player
-                    elif(user.role == 3):
+            if role == '3':
+                player = Player.objects.get(email=email)
+                encoded = player.password
+                request.session['user'] = player.name
+                
 
-                        player = Player.objects.filter(email=data.get("email"))
-                        request.session['player'] = player
-                        return render(request, "player_profile.html",{})
+            elif role == '2':
+                team = Team.objects.get(email=email)
+                encoded = team.password
+                request.session['user'] = team.name
 
-                    # Team
-                    elif(user.role == 2):
-                        return render(request, "team_home.html",{})
+            elif role == '1':
+                admin = AuctionAdmin.objects.get(email=email)
+                encoded = admin.password
+                request.session['user'] = admin.name
+                
+
+            if check_password(password, encoded):
+                return render(request, 'index.html', {})
         except Exception as e:
-            return HttpResponse(content=e)
+            return render(request, "error.html", {"Error":"Player Does Not Exists"})
+    return render(request, 'login.html', {"user":user})
 
-    return render(request, 'login.html', {})
 
 def register(request):
+    
+    if request.method == "POST":
+        try:
+            captain = Player.objects.get(playerId=request.POST.get("captainId"))
+            team = TeamForm(request.POST)
+            print(captain)
+            
+            if(team.is_valid()):
+                team = team.save(commit=False)
+                team.captainId = captain
+                team.save()
+                request.session['name'] = team.name 
+                request.session['teamId'] = team.teamId 
+                request.session['user'] = team.email 
+                return HttpResponseRedirect('teamprofile')
+            else:
+                raise IntegrityError("User Already Exists")
+
+        except IntegrityError as e:
+            print("Team Already Exists")
+            return render(request, 'Error.html', {"Error":"User Already Exists"})
+
+
+        except Exception as e:
+            print(e)
     reg = request.GET.get("reg")
-    return render(request, 'register.html', {"reg":reg})
+    if reg:
+        return render(request, 'register.html', {"reg":reg})
+
+
 
 def player_register(request):
-    if(request.method == "POST"):
-        data = request.POST
-    
-        if(validateRegistration(1)):
-            player = Player()
-            player.name = data.get('name')
-            player.email = data.get('email')
-            player.passwoord = data.get('password')
-            player.age = data.get('age')
-            player.role = data.get("role")
-            player.battingStyle = data.get('battingStyle')
-            player.bowlingStyle = data.get('bowlingStyle')
-            player.password = data.get('password')
-            player.gender = 1 if data.get('gender') == "male" else 0
-            player.image = ""
-            player.playerId = data.get('userId')
-            print(data.get('image'))
-            try:
-                if(player.save()):
-                    newlogin = Login
-                    newlogin.email = player.email
-                    newlogin.password = player.password
-                    newlogin.role = 3
-                    newlogin.save()
+    if(request.session.get('user') != None):
+        return redirect('index')
+    if request.method == "POST":
+        print("POST method")
+        player = PlayerForm(request.POST)
 
-                    request.session['player'] = player
-                    response = {
-                        "Status":"Ok",
-                        "message":"Registered successfully"
-                    }
-                else:
-                    response = response = {
-                        "Status":"Error",
-                        "message":"Player Already Exists"
-                    }
-            except Exception as e:
-                return HttpResponse(e)
-            else:
-                return redirect("player_profile")
-    return render(request, 'player_register.html', {})
+        if player.is_valid():
+            player.save()
+            request.session['session'] = player
+            return render(request, "player_profile.html", {"session": request.session})
+        else:
+            return render(request, 'Error.html', {"Error":"Player Already Exists"})
+    else:
+        return render(request, 'player_register.html', {})
+
 
 def live_auction(request):
     return render(request, 'live_auction.html', {})
@@ -109,3 +124,20 @@ def helppage(request):
 
 def teamHome(request):
     return render(request,'team_home.html')
+
+def logout(request):
+    request.session.flush()
+    return render(request, 'index.html', {})
+
+def getCaptain(request):
+    if request.method == "POST":
+        try:
+            
+            data = json.loads(request.body.decode('utf-8'))
+            captain = data.get("captain","")
+
+            captainObj = Player.objects.get(playerId=captain)
+            return JsonResponse({"content":"Captain Choosen Succesfully", "code":200})
+        except Exception as e:
+
+            return JsonResponse({"content":"Player Does not exists", "code":404})

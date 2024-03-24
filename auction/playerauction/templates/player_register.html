@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,29 +11,29 @@
     <form action="playerregister" method="post">
         {% csrf_token %}
         Name : <input type="text" name="name" id="name"><br>
-        UserName : <input type="text" name="userId">
+        UserName : <input type="text" name="playerId" required>
         Email : <input type="email" name="email" id="email"><br>
         Age : <input type="number" name="age" id="age"><br>
         Password : <input type="password" name="password" id=""><br>
         Role : <select name="role" id="role">
-            <option value="allrounder">All Rounder</option>
+            <option value="allrounder" selected>All Rounder</option>
             <option value="batsman">Bats Man</option>
             <option value="bowler">Bowler</option>
         </select>
 
         <br>
-        BattingStyle : <select name="battingstyle" id="battingstyle">
+        BattingStyle : <select name="battingstyle" id="battingStyle" >
             <option value="spinner" selected> Spinner</option>
         </select>
 
-        BowlingStyle : <select name="bowligstyle" id="battingstyle">
+        BowlingStyle : <select name="bowligstyle" id="bowlingStyle">
             <option value="spinner" selected> Spinner</option>
         </select>
 
-        Gender : <input type="radio" name="gender" value="male"> male
-                 <input type="radio" name="gender" value="female"> female
+        Gender : <input type="radio" name="gender" value=1 checked> male
+                 <input type="radio" name="gender" value=0> female
         
-        Image : <input type="file" name="image" id="image" type="image/*">
+        Image : <input type="file" name="image" id="image" accept="image/*">
         
         
         <input type="submit" value="Enter To The System">

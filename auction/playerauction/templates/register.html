@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register Page</title>
+    {% csrf_token %}
 </head>
 <body>
     <h1>Register Here</h1>
@@ -11,15 +12,16 @@
     {% if reg == '2' %}
 
     <h2 style="text-align: center;"> New Team Registration </h2>
-    <form action="register" method="post">
+    <form action="register" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
         Name : <input type="text" name="name" id=""><br>
         email : <input type="text" name="email" id=""><br>
-        UserId : <input type="text" name="teamid" id=""><br>
+        UserId : <input type="text" name="teamId" id=""><br>
         password : <input type="text" name="password" id=""><br>
         select team logo : <input type="file" name="logo" id="">
-        Add Captain : <input type="text" name="captainId" id="" onchange="getCaptain(this.value)">
+        Add Captain : <input type="text" name="captainId" id="" onchange="getCaptain(this.value)" required autocomplete=false>
         
-        <button> Submit </button>
+        <button disabled id="submit"> Submit </button>
    
    
     </form>
@@ -27,8 +29,28 @@
     {% endif %}
 
     <script>
+
+        let csrf_token = document.getElementsByName('csrfmiddlewaretoken')[0].value
         const getCaptain = (captainId) =>{
-            return True
+            console.log(captainId)
+            fetch('getcaptain',{
+                method:'POST',
+                headers: { "X-CSRFToken": csrf_token, 'Content-Type':'application/json' },
+                body : JSON.stringify({
+                    "captain": captainId
+                })
+            }).then((res)=>res.json())
+            .then((data)=>{
+                if(data.code == 200){
+                    document.getElementById("submit").removeAttribute("disabled")
+                }
+                else{
+                    document.getElementById("submit").setAttribute("disabled","disabled")
+                }
+                console.log(data.code)
+            })
+
+
         }
     </script>
 </body>
