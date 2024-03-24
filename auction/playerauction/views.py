@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
-from playerauction.models import Player, Auction, AuctionAdmin, AuctionPlayer, Team, Login
+from appdata.models import Player, Auction, AuctionAdmin, AuctionPlayer, Team, Login
 from playerauction.validate import *
 from sqlite3 import IntegrityError
 
@@ -38,7 +38,8 @@ def login(request):
     return render(request, 'login.html', {})
 
 def register(request):
-    return render(request, 'register.html', {})
+    reg = request.GET.get("reg")
+    return render(request, 'register.html', {"reg":reg})
 
 def player_register(request):
     if(request.method == "POST"):

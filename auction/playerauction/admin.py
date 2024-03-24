@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Auction, Login, AuctionAdmin, Player, AuctionPlayer, Team
+from appdata.models import Auction, Login, AuctionAdmin, Player, AuctionPlayer, Team
 
 admin.site.register(Auction)
 admin.site.register(AuctionAdmin)

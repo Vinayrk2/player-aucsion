@@ -1,4 +1,4 @@
-from .models import Login
+from appdata.models import Login
 from django.contrib.auth.hashers import make_password
 
 

@@ -7,5 +7,29 @@
 </head>
 <body>
     <h1>Register Here</h1>
+
+    {% if reg == '2' %}
+
+    <h2 style="text-align: center;"> New Team Registration </h2>
+    <form action="register" method="post">
+        Name : <input type="text" name="name" id=""><br>
+        email : <input type="text" name="email" id=""><br>
+        UserId : <input type="text" name="teamid" id=""><br>
+        password : <input type="text" name="password" id=""><br>
+        select team logo : <input type="file" name="logo" id="">
+        Add Captain : <input type="text" name="captainId" id="" onchange="getCaptain(this.value)">
+        
+        <button> Submit </button>
+   
+   
+    </form>
+
+    {% endif %}
+
+    <script>
+        const getCaptain = (captainId) =>{
+            return True
+        }
+    </script>
 </body>
 </html>
