@@ -18,5 +18,9 @@ urlpatterns = [
     path('adminhome',views.adminHome, name='adminhome'),
     path('logout',views.logout, name='logout'),
     path('getcaptain',views.getCaptain, name='getCaptain'),
+    path('getform',views.getForm, name='getform'),
+    path('addplayer',views.addPlayer, name='addplayer'),
+    path('addteam',views.addTeam, name='addteam')
+
 
 ]   

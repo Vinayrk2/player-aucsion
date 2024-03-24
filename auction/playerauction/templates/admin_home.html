@@ -7,6 +7,50 @@
 </head>
 <body>
     Auction Admin Home
+    <button type="button" onclick="loadForm('auction')"> Create Auction </button>
+    <button type="button" onclick="loadForm('team')"> Add Team </button>
+    <button type="button" onclick="loadForm('player')"> Add Player </button>
 
+    <div id="container">
+ 
+    </div>
+
+    
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        const loadForm = (form)=>{
+            switch(form){
+                case 'auction':
+                    $('#container').load('getform?form=createauction')
+                    break;
+                    
+                    case 'team':
+                    $('#container').load('getform?form=addteam')
+                    break;
+                    
+                    case 'player':
+                    $('#container').load('getform?form=addplayer')
+                break;
+            }
+                
+        }
+
+        const submit = (e)=>{
+            e.preventDefaults()
+        fetch('getcaptain',{
+            method:'POST',
+            headers: { "X-CSRFToken": csrf_token, 'Content-Type':'application/json' },
+            body : JSON.stringify(document.forms[0])
+        })
+        .then((res)=>res.json())
+        .then((data)=>{
+            console.log(data)
+        })
+
+    }   
+        
+    </script>
 </body>
 </html>

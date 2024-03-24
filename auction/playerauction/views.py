@@ -8,6 +8,8 @@ from django.contrib.auth.hashers import check_password
 from appdata.forms import *
 import json
 from django.http import JsonResponse
+from django.core import serializers
+
 
 # Create your views here.
 
@@ -28,26 +30,35 @@ def login(request, user):
             if entity == '3':
                 user = Player.objects.get(email=email)
                 encoded = user.password
-                request.session['user'] = 3
+                if check_password(password, encoded):
+                    request.session['user'] = 3
                 
 
             elif entity == '2':
                 user = Team.objects.get(email=email)
                 encoded = user.password
-                request.session['user'] = 2
+                if check_password(password, encoded):
+                    request.session['user'] = 2
 
             elif entity == '1':
                 user = AuctionAdmin.objects.get(email=email)
                 encoded = user.password
-                request.session['user'] = 1
+                if check_password(password, encoded):
+                    request.session['user'] = 1
+                    request.session['id'] = user.id
+                    request.session['entity'] = user.name
             
-            if check_password(password, encoded):
-                return HttpResponseRedirect('/')
+
+
 
 
         except Exception as e:
-            return render(request, "error.html", {"Error":"User Not Found"})
+            return render(request, "error.html", {"Error":e})
             # return render(request, "error.html", {"Error":"User Does Not Exists"})
+    
+        else:
+            return HttpResponseRedirect('/')
+
     return render(request, 'login.html', {"user":user})
 
 
@@ -109,7 +120,7 @@ def old_auction(request):
 
 def player_profile(request):
     if request.session.get("user") and request.session.get("user") == 3:
-        return render(request, 'player_profile.html', {})
+        return render(request, 'player_profile.html', {'profile': request.session['entity']})
     else:
         return render(request, "error.html", {'Error':"Unauthorized User Access : 403"})
 
@@ -176,3 +187,42 @@ def adminHome(request):
 
     else:
         return render(request, "error.html", {'Error':"Unauthorized User Access : 403"})
+
+def getForm(request):
+    form = request.GET.get('form')
+
+    if form == 'createauction':
+        return render(request, "forms/createauction.html", {})
+    elif form == 'addteam':
+        return render(request, "forms/addteam.html", {})
+    elif form == 'addplayer':
+        return render(request, "forms/addplayer.html", {})
+
+def addPlayer(request):
+    if request.session.get('user') and request.session.get("user") == 1:
+        if request.method == "POST":
+            try:
+                playerId = request.POST.get('playerId')
+                player = Player.objects.get(playerId=playerId)
+            except Exception as e:
+                return render(request, "error.html", {"Error":"Invalid playerId"})
+    else:
+        return render(request, "error.html", {'Error':"Unauthorized User Access : 403"})
+
+    return HttpResponseRedirect('adminhome')
+
+def addTeam(request):
+    if request.session.get('user') and request.session.get("user") == 1:
+        if request.method == "POST":
+            try:
+                teamId = request.POST.get("teamId")
+                team = Team.objects.get(teamId=teamId)
+                # teams = getAuctionTeams("")
+            except Exception as e:
+                return render(request, "error.html", {"Error":e})
+            
+    else:
+        return render(request, "error.html", {'Error':"Unauthorized User Access : 403"})
+    return render(request, "admin_home.html",{})
+    # return HttpResponseRedirect('getform?form=addteam')
+

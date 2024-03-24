@@ -1,0 +1,10 @@
+
+<form action="addteam" method="post">
+    {% csrf_token %}
+    <select>
+        <option> {{ auctions[0]}}</option>
+    </select>
+    <h2> Add Teams </h2>
+    Team Id : <input type="text" name="teamId" id="id">
+    <button onclick="addTeam()"> Submit </button>
+</form>

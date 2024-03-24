@@ -1,0 +1,19 @@
+
+
+<form action="addplayer" method="post">
+    {% csrf_token %}
+    <h2> Add Players </h2>
+    Player Id : <input type="text" name="playerId" id="">
+    <button> Submit </button>
+</form>
+
+<div>
+    {% if playerlist %}
+        {% for player in playerlist %}
+            <div>
+                <b>{{ player.image}} </b>
+                <b>{{ player.name}} </b>
+            </div>
+        {% endfor %}
+    {% endif %}
+</div>

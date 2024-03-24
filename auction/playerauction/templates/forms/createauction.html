@@ -1,0 +1,12 @@
+    
+    <form action="createauction" method="post">
+        {% csrf_token %}
+        <h2> Auction Creation </h2>
+        Auction Id : <input type="text" name="auctionId" id=""><br>
+        Auction Name : <input type="text" name="auctionName" id=""><br>
+        Auction Initial Point : <input type="text" name="initialPoint" id=""><br>
+        Auction Max Bid : <input type="text" name="maxBid" id=""><br>
+        Auction Location : <input type="text" name="location" id=""><br>
+        <input type="hidden" name="adminId" value="{{ user.id }}">
+        <button> Submit </button>
+    </form>
