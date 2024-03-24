@@ -6,21 +6,24 @@
     <title>Login Page</title>
 </head>
 <body>
+    {% if message  %}
+        {{ message}}
+    {% endif %}
     <h1> Admin & other entities login from here</h1>
     <form action="login" method="post">
         {% csrf_token %}
         email : <input type="email" name="email" id="email"><br>
         password : <input type="password" name="password" id="password"><br>
         {% if user == "player" %}
-            <input type="hidden" name="role" value="3">
+            <input type="hidden" name="user" value="3">
         {% endif %}
 
         {% if user == "team" %}
-        <input type="hidden" name="role" value="2">
+        <input type="hidden" name="user" value="2">
         {% endif %}
 
         {% if user == "auctionadmin" %}
-        <input type="hidden" name="role" value="1">
+        <input type="hidden" name="user" value="1">
         {% endif %}
 
 

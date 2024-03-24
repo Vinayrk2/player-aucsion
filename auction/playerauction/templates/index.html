@@ -4,16 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home Page</title>
+    <link rel="shortcut icon" href="../../media/Designer.png" type="image/x-icon">
+    <style>
+        #links>a{
+            display: block;
+        }
+    </style>
 </head>
 <body>
     {{ request.session.user }}
 
     <h1> Home Page </h1>
-    <a href="playerregister">Player Registration</a>
-    <a href="login">Player Login</a>
-    <a href="auctionadmin">Auction Admin</a>
-    <a href="playerprofile">Player Profile</a>
-    <a href="register?reg=2"> Register </a>
-    <a href="logout"> Logout </a>
+    <div id="links">
+        <a href="playerregister">Player Registration</a>
+        <a href="team/login">Team Login</a>
+        <a href="player/login">Player Login</a>
+        <a href="auctionadmin/login">Auction Admin Login</a>
+        <a href="auctionadmin">Auction Admin</a>
+        <a href="adminhome"> Admin Home</a>
+        <a href="playerprofile">Player Profile</a>
+        <a href="register?reg=2"> Register </a>
+        <a href="logout"> Logout </a>
+        <a href="adminreg"> Admin Registration </a>
+    </div>
 </body>
 </html>

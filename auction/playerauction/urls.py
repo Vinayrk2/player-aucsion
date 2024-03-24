@@ -14,7 +14,9 @@ urlpatterns = [
     path('playersummery', views.player_summery, name='player_summery'),
     path('help',views.helppage, name='helppage'),
     path('teamprofile',views.teamHome, name='team_profile'), 
+    path('adminreg',views.adminReg, name='adminreg'),
+    path('adminhome',views.adminHome, name='adminhome'),
     path('logout',views.logout, name='logout'),
-    path('getcaptain',views.getCaptain, name='getCaptain')
+    path('getcaptain',views.getCaptain, name='getCaptain'),
 
 ]   

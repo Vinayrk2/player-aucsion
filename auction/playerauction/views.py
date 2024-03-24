@@ -22,35 +22,39 @@ def login(request, user):
         print(request.POST)
         email = request.POST.get('email')
         password = request.POST.get('password')
-        role  = request.POST.get("role")
+        entity  = request.POST.get("user")
         
         try:
-            if role == '3':
-                player = Player.objects.get(email=email)
-                encoded = player.password
-                request.session['user'] = player.name
+            if entity == '3':
+                user = Player.objects.get(email=email)
+                encoded = user.password
+                request.session['user'] = 3
                 
 
-            elif role == '2':
-                team = Team.objects.get(email=email)
-                encoded = team.password
-                request.session['user'] = team.name
+            elif entity == '2':
+                user = Team.objects.get(email=email)
+                encoded = user.password
+                request.session['user'] = 2
 
-            elif role == '1':
-                admin = AuctionAdmin.objects.get(email=email)
-                encoded = admin.password
-                request.session['user'] = admin.name
-                
-
+            elif entity == '1':
+                user = AuctionAdmin.objects.get(email=email)
+                encoded = user.password
+                request.session['user'] = 1
+            
             if check_password(password, encoded):
-                return render(request, 'index.html', {})
+                return HttpResponseRedirect('/')
+
+
         except Exception as e:
-            return render(request, "error.html", {"Error":"Player Does Not Exists"})
+            return render(request, "error.html", {"Error":"User Not Found"})
+            # return render(request, "error.html", {"Error":"User Does Not Exists"})
     return render(request, 'login.html', {"user":user})
 
 
 def register(request):
-    
+    if(request.session.get('user') != None):
+        return redirect('index')
+
     if request.method == "POST":
         try:
             captain = Player.objects.get(playerId=request.POST.get("captainId"))
@@ -90,8 +94,7 @@ def player_register(request):
 
         if player.is_valid():
             player.save()
-            request.session['session'] = player
-            return render(request, "player_profile.html", {"session": request.session})
+            return HttpResponseRedirect('player/login',{'message':'player'})
         else:
             return render(request, 'Error.html', {"Error":"Player Already Exists"})
     else:
@@ -105,17 +108,22 @@ def old_auction(request):
     return render(request, 'old_auction.html', {})
 
 def player_profile(request):
-    if request.session.get("user"):
+    if request.session.get("user") and request.session.get("user") == 3:
         return render(request, 'player_profile.html', {})
     else:
-        return HttpResponse(content="<script>alert('You have to login first'); window.location.assign('/login'); </script>")
+        return render(request, "error.html", {'Error':"Unauthorized User Access : 403"})
 
 def create_auction(request):
-    return render(request, 'create_auction.html', {})
-
+    if request.session.get('user') and request.session.get("user") == 1:
+        return render(request, 'create_auction.html', {})
+    else:
+        return render(request, "error.html", {'Error':"Unauthorized User Access : 403"})
 def auction_admin(request):
-    return render(request, 'auction_admin.html', {})
-
+    print(request.session.get("user"))
+    if request.session.get('user') and request.session.get("user") == 1:
+        return render(request, 'auction_admin.html', {})
+    else:
+        return render(request, "error.html", {'Error':"Unauthorized User Access : 403"})
 def player_summery(request):
     return render(request, 'player_summery.html', {})
 
@@ -123,11 +131,13 @@ def helppage(request):
     return render(request, 'helppage.html', {})
 
 def teamHome(request):
-    return render(request,'team_home.html')
-
+    if request.session.get('user') and request.session.get("user") == 2:
+        return render(request,'team_home.html')
+    else:
+        return render(request, "error.html", {'Error':"Unauthorized User Access : 403"})
 def logout(request):
     request.session.flush()
-    return render(request, 'index.html', {})
+    return HttpResponseRedirect('/')
 
 def getCaptain(request):
     if request.method == "POST":
@@ -141,3 +151,28 @@ def getCaptain(request):
         except Exception as e:
 
             return JsonResponse({"content":"Player Does not exists", "code":404})
+
+def adminReg(request):
+    if(request.session.get('user') != None):
+        return redirect('index')
+    if request.method == "POST":
+        try:
+            auctionAdmin = AdminForm(request.POST)
+            if auctionAdmin.is_valid():
+                auctionAdmin.save()
+
+        except Exception as e:
+            return render(request, 'error.html', {"Error":e})
+        
+        
+        return HttpResponseRedirect('auctionadmin/login')
+    else:
+        return render(request, 'adminReg.html', {})
+
+def adminHome(request):
+
+    if request.session.get('user') and request.session.get("user") == 1:
+        return render(request,'admin_home.html',{})
+
+    else:
+        return render(request, "error.html", {'Error':"Unauthorized User Access : 403"})

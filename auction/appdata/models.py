@@ -10,6 +10,7 @@ class AuctionAdmin(models.Model):
     email    = models.EmailField(max_length=200, unique=True)
     password = models.CharField(max_length=256)
     subscription = models.BooleanField(default=True)
+    name = models.CharField(max_length=max_length_for_id, null=True)
 
     def save(self, *args, **kwargs):
         self.password = make_password(self.password)

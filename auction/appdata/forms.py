@@ -1,5 +1,5 @@
 from django import forms
-from appdata.models import Team, Player
+from appdata.models import Team, Player, AuctionAdmin
 
 class TeamForm(forms.ModelForm):
     logo = forms.ImageField(required=False)
@@ -16,3 +16,8 @@ class PlayerForm(forms.ModelForm):
         model = Player
         fields = '__all__' 
         exclude = ['id','captainId']
+
+class AdminForm(forms.ModelForm):
+    class Meta:
+        model = AuctionAdmin
+        fields = '__all__'
