@@ -24,7 +24,7 @@ class Team(models.Model):
     def save(self, *args, **kwargs):
         self.password = make_password(self.password)
         super().save(*args, **kwargs)
-    logo    = models.TextField(default=None, null=True)
+    logo    = models.ImageField(upload_to="team/",default=None, null=True)
     captainId = models.OneToOneField('Player', on_delete=models.DO_NOTHING, null=True, default=None)
 
 

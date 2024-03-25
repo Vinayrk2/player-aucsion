@@ -1,4 +1,5 @@
-    
+{% extends '../admin_home.html' %}
+{% block content %}
     <form action="createauction" method="post">
         {% csrf_token %}
         <h2> Auction Creation </h2>
@@ -10,3 +11,4 @@
         <input type="hidden" name="adminId" value="{{ user.id }}">
         <button> Submit </button>
     </form>
+    {% endblock %}

@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse, HttpResponseRedirect
-from appdata.models import Player, Auction, AuctionAdmin, AuctionPlayer, Team, Login
+from appdata.models import Player, Auction, AuctionAdmin, AuctionPlayer, Team, Login, Auction_teams
 from playerauction.validate import *
 from sqlite3 import IntegrityError
 from django.contrib.auth import authenticate
@@ -32,6 +32,7 @@ def login(request, user):
                 encoded = user.password
                 if check_password(password, encoded):
                     request.session['user'] = 3
+                    request.session['id'] = user.playerId
                 
 
             elif entity == '2':
@@ -39,13 +40,14 @@ def login(request, user):
                 encoded = user.password
                 if check_password(password, encoded):
                     request.session['user'] = 2
+                    request.session['id'] = user.teamId
 
             elif entity == '1':
                 user = AuctionAdmin.objects.get(email=email)
                 encoded = user.password
                 if check_password(password, encoded):
                     request.session['user'] = 1
-                    request.session['id'] = user.id
+                    request.session['id'] = user.adminId
                     request.session['entity'] = user.name
             
 
@@ -69,27 +71,24 @@ def register(request):
     if request.method == "POST":
         try:
             captain = Player.objects.get(playerId=request.POST.get("captainId"))
-            team = TeamForm(request.POST)
+            team = TeamForm(request.POST, request.FILES)
             print(captain)
             
             if(team.is_valid()):
                 team = team.save(commit=False)
                 team.captainId = captain
                 team.save()
-                request.session['name'] = team.name 
-                request.session['teamId'] = team.teamId 
-                request.session['user'] = team.email 
-                return HttpResponseRedirect('teamprofile')
+                return HttpResponseRedirect('login')
             else:
                 raise IntegrityError("User Already Exists")
-
+       
         except IntegrityError as e:
-            print("Team Already Exists")
             return render(request, 'Error.html', {"Error":"User Already Exists"})
-
+       
 
         except Exception as e:
-            print(e)
+            return render(request, 'Error.html', {"Error":e})
+            
     reg = request.GET.get("reg")
     if reg:
         return render(request, 'register.html', {"reg":reg})
@@ -100,14 +99,18 @@ def player_register(request):
     if(request.session.get('user') != None):
         return redirect('index')
     if request.method == "POST":
-        print("POST method")
-        player = PlayerForm(request.POST)
+        try:
+            player = PlayerForm(request.POST, request.FILES)
 
-        if player.is_valid():
-            player.save()
-            return HttpResponseRedirect('player/login',{'message':'player'})
-        else:
-            return render(request, 'Error.html', {"Error":"Player Already Exists"})
+            if player.is_valid():
+                player.save()
+                return HttpResponseRedirect('player/login',{'message':'player'})
+            else:
+                # return render(request, 'Error.html', {"Error":"Player Already Exists"})
+                return render(request, 'Error.html', {"Error":player.errors})
+        except Exception as e:
+            return render(request, 'Error.html', {"Error":e})
+
     else:
         return render(request, 'player_register.html', {})
 
@@ -120,7 +123,19 @@ def old_auction(request):
 
 def player_profile(request):
     if request.session.get("user") and request.session.get("user") == 3:
-        return render(request, 'player_profile.html', {'profile': request.session['entity']})
+        player_details = Player.objects.get(playerId=request.session.get("id"))
+        player_profile = {
+            "name": player_details.name,
+            "age" : player_details.age,
+            "email": player_details.email,
+            "role": player_details.role,
+            "battingStyle": player_details.battingStyle,
+            "bowlingStyle": player_details.bowlingStyle,
+            "gender": player_details.gender,
+            "playerId": player_details.playerId
+        }
+        player_profile["image"] = "" if player_details.image != None else player_details.image.url 
+        return render(request, 'player_profile.html', {'profile': player_profile})
     else:
         return render(request, "error.html", {'Error':"Unauthorized User Access : 403"})
 
@@ -143,7 +158,15 @@ def helppage(request):
 
 def teamHome(request):
     if request.session.get('user') and request.session.get("user") == 2:
-        return render(request,'team_home.html')
+
+        team_details = Team.objects.get(teamId=request.session.get('id'))
+        team = {
+            "id": team_details.teamId,
+            "name": team_details.name,
+            "email": team_details.email
+        }
+        team["logo"] =  "" if team_details.logo == None else team_details.logo.url
+        return render(request,'team_home.html',{'team':team})
     else:
         return render(request, "error.html", {'Error':"Unauthorized User Access : 403"})
 def logout(request):
@@ -189,14 +212,7 @@ def adminHome(request):
         return render(request, "error.html", {'Error':"Unauthorized User Access : 403"})
 
 def getForm(request):
-    form = request.GET.get('form')
-
-    if form == 'createauction':
-        return render(request, "forms/createauction.html", {})
-    elif form == 'addteam':
-        return render(request, "forms/addteam.html", {})
-    elif form == 'addplayer':
-        return render(request, "forms/addplayer.html", {})
+    return render(request, "forms/createauction.html",{})
 
 def addPlayer(request):
     if request.session.get('user') and request.session.get("user") == 1:
@@ -208,21 +224,44 @@ def addPlayer(request):
                 return render(request, "error.html", {"Error":"Invalid playerId"})
     else:
         return render(request, "error.html", {'Error':"Unauthorized User Access : 403"})
-
-    return HttpResponseRedirect('adminhome')
+    players = Player.objects.all()
+    return render(request, "forms/addplayer.html", {'playerlist':players})
 
 def addTeam(request):
     if request.session.get('user') and request.session.get("user") == 1:
         if request.method == "POST":
             try:
                 teamId = request.POST.get("teamId")
+
+                if Auction_teams.objects.get(teamId=teamId):
+                    raise IntegrityError("Team Already In the Auction.")
                 team = Team.objects.get(teamId=teamId)
-                # teams = getAuctionTeams("")
-            except Exception as e:
+
+                auctionid = request.POST.get("auctionid")
+                auction = Auction.objects.get(id=auctionid)
+
+                auctionTeam = Auction_teams()
+                auctionTeam.auctionId = auction
+                auctionTeam.teamId = team
+                auctionTeam.save()
+
+            except IntegrityError as e:
+                # return render(request, "error.html", {"Error":"Team Does Not Exists"})
                 return render(request, "error.html", {"Error":e})
-            
+       
+            except Exception as e:
+                # return render(request, "error.html", {"Error":"Team Does Not Exists"})
+                return render(request, "error.html", {"Error":e})
+        auctions = Auction.objects.filter(adminId=request.session.get('id'))
+        teams = Auction_teams.objects.select_related('teamId')
+
+        print(teams)
+
+        return render(request, "forms/addteam.html", {'teams': teams, 'auctions':auctions})
+        # return render(request, "forms/addteam.html", {'auctions':auctions})
     else:
         return render(request, "error.html", {'Error':"Unauthorized User Access : 403"})
-    return render(request, "admin_home.html",{})
+    
+    return render(request, "forms/addTeam.html",{})
     # return HttpResponseRedirect('getform?form=addteam')
 

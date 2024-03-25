@@ -7,18 +7,18 @@
 </head>
 <body>
     Auction Admin Home
-    <button type="button" onclick="loadForm('auction')"> Create Auction </button>
-    <button type="button" onclick="loadForm('team')"> Add Team </button>
-    <button type="button" onclick="loadForm('player')"> Add Player </button>
+    <a href="getform"><button type="button" onclick="loadForm('auction')"> Create Auction </button></a>
+    <a href="addplayer"><button type="button" onclick="loadForm('team')"> Add Team </button></a>
+    <a href="addteam"><button type="button" onclick="loadForm('player')"> Add Player </button></a>
 
     <div id="container">
- 
+        {% block  content %} {% endblock %}
     </div>
 
     
 
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
         const loadForm = (form)=>{
             switch(form){
@@ -51,6 +51,6 @@
 
     }   
         
-    </script>
+    </script> -->
 </body>
 </html>

@@ -1,5 +1,5 @@
-
-
+{% extends '../admin_home.html' %}
+{% block content %}
 <form action="addplayer" method="post">
     {% csrf_token %}
     <h2> Add Players </h2>
@@ -17,3 +17,4 @@
         {% endfor %}
     {% endif %}
 </div>
+{% endblock %}

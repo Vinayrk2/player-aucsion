@@ -1,10 +1,21 @@
-
+{% extends '../admin_home.html' %}
+{% block content %}
 <form action="addteam" method="post">
     {% csrf_token %}
-    <select>
-        <option> {{ auctions[0]}}</option>
-    </select>
+    <!-- <select name="auctionid">
+        <option value="{{ auction.id }}"> {{ auction.auctionName }}</option>
+    </select> -->
+    {% for auction in auctions %}
+    <input type="hidden" name="auctionid" value="{{ auction.id }}">
+    {% endfor %}
     <h2> Add Teams </h2>
     Team Id : <input type="text" name="teamId" id="id">
     <button onclick="addTeam()"> Submit </button>
 </form>
+{% for team in teams %}
+    <div>
+        <img src="{{ team.logo }}" alt="">
+        {{ team.name }}</div>
+{% endfor %}
+{% endblock %}
+

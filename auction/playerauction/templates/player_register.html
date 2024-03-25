@@ -8,7 +8,7 @@
 </head>
 <body>
     <h1>Register Player</h1>
-    <form action="playerregister" method="post">
+    <form action="playerregister" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         Name : <input type="text" name="name" id="name"><br>
         UserName : <input type="text" name="playerId" required>
@@ -25,12 +25,12 @@
         </select>
 
         <br>
-        BattingStyle : <select name="battingstyle" id="battingstyle">
+        BattingStyle : <select name="battingStyle" id="battingstyle">
             <option value="Right-hand-bat" >Right-hand batsman</option>
             <option value="Left-hand-bat" >Left-hand batsman</option>
         </select>
 
-        BowlingStyle : <select name="bowligstyle" id="battingstyle">
+        BowlingStyle : <select name="bowlingStyle" id="battingstyle">
             <option value="Right-arm-fast">Right-arm Fast</option>
             <option value="Right-arm- Medium">Right-arm Medium</option>
             <option value="Left-arm-fast">Left-arm Fast</option>
