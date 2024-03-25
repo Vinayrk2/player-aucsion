@@ -78,12 +78,12 @@ def register(request):
                 team = team.save(commit=False)
                 team.captainId = captain
                 team.save()
-                return HttpResponseRedirect('login')
+                return HttpResponseRedirect('team/login')
             else:
-                raise IntegrityError("User Already Exists")
+                raise IntegrityError(team.errors)
        
         except IntegrityError as e:
-            return render(request, 'Error.html', {"Error":"User Already Exists"})
+            return render(request, 'Error.html', {"Error":e})
        
 
         except Exception as e:
