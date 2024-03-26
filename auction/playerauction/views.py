@@ -17,11 +17,10 @@ def index(request):
     return render(request, 'index.html', {})
 
 def login(request, user):
-    if(request.session.get('user') != None):
+    if request.session.get('user') != None:
         return redirect('index')
 
     if request.method == "POST":
-        print(request.POST)
         email = request.POST.get('email')
         password = request.POST.get('password')
         entity  = request.POST.get("user")
@@ -33,6 +32,8 @@ def login(request, user):
                 if check_password(password, encoded):
                     request.session['user'] = 3
                     request.session['id'] = user.playerId
+                else:
+                    raise Exception("Incorrect Password")
                 
 
             elif entity == '2':
@@ -41,6 +42,8 @@ def login(request, user):
                 if check_password(password, encoded):
                     request.session['user'] = 2
                     request.session['id'] = user.teamId
+                else:
+                    raise Exception("Incorrect Password")
 
             elif entity == '1':
                 user = AuctionAdmin.objects.get(email=email)
@@ -49,14 +52,25 @@ def login(request, user):
                     request.session['user'] = 1
                     request.session['id'] = user.adminId
                     request.session['entity'] = user.name
+                else:
+                    raise Exception("Incorrect Password")                    
+            else:
+                raise Exception("Invalid Entity")
             
+        except Player.DoesNotExist as e:
+            return render(request, "error.html", {"Error":"Player Doesnt Exists"})
+        except AuctionAdmin.DoesNotExist as e:
+            return render(request, "error.html", {"Error":"Admin Doesnt Exists"})
+        except Team.DoesNotExist as e:
+            return render(request, "error.html", {"Error":"Team Doesnt Exists"})
 
         except Exception as e:
+            return render(request, "error.html", {"Error":e})
+
             # return render(request, "error.html", {"Error":e})
-            return render(request, "error.html", {"Error":"User Does Not Exists"})
     
         else:
-            return HttpResponseRedirect('/')
+            return redirect('index')
     else:
         return render(request, 'login.html', {"user":user})
 
