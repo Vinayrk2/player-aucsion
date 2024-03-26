@@ -51,17 +51,14 @@ def login(request, user):
                     request.session['entity'] = user.name
             
 
-
-
-
         except Exception as e:
-            return render(request, "error.html", {"Error":e})
-            # return render(request, "error.html", {"Error":"User Does Not Exists"})
+            # return render(request, "error.html", {"Error":e})
+            return render(request, "error.html", {"Error":"User Does Not Exists"})
     
         else:
             return HttpResponseRedirect('/')
-
-    return render(request, 'login.html', {"user":user})
+    else:
+        return render(request, 'login.html', {"user":user})
 
 
 def register(request):
@@ -134,7 +131,8 @@ def player_profile(request):
             "gender": player_details.gender,
             "playerId": player_details.playerId
         }
-        player_profile["image"] = "" if player_details.image != None else player_details.image.url 
+        player_profile["image"] = "" if player_details.image == None else player_details.image.url 
+        print(player_profile['image'])
         return render(request, 'player_profile.html', {'profile': player_profile})
     else:
         return render(request, "error.html", {'Error':"Unauthorized User Access : 403"})
