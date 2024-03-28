@@ -5,21 +5,109 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Player Profile</title>
     <link rel="shortcut icon" href="../../media/Designer.png" type="image/x-icon">
+     <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f2f2f2;
+        }
+        
+        h1 {
+            background-color: #0061a7;
+            color: white;
+            padding: 5px;
+            text-align: center;
+            text-transform: uppercase;
+            margin-top:0px;
+        }
+        
+        img {
+            border-radius: 10%;
+            display: block;
+            margin: 0 auto;
+        }
+        
+        div {
+            padding: 2px;
+            
+        }
+        
+        
+      
+        .player {
+            margin: 10px 4px;
+            width: 100%;
+            border: 1px solid #ddd;
+            border-radius: 2px;
+            overflow: hidden;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+        }
+        
+        .player table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .player table td {
+            padding: 10px;
+        }
+        
+        .player table td:first-child {
+            font-weight: bold;
+            text-align: center;
+        }
+        
+        .player table td div {
+            margin: 0;
+        }
+     </style>
 
 </head>
 <body>
     <h1> Player Profile</h1>
     <img src="{{ profile.image }}" alt="" height="200px" width="200px" style="border-radius: 10%;">
-    <div> <b>{{ profile.playerId }}</b></div>
-    <div> {{ profile.name }}</div>
-    <div> {{ profile.email }}</div>
-    <div> {{ profile.role }}</div>
-    <div> {{ profile.battingStyle }}</div>
-    <div> {{ profile.bowlingStyle }}</div>
-    {% if profile.gender == 1 %}
-    <div> Male </div>
-    {% else %}
-    <div> Female </div>
-    {% endif %}
+    <div class="player">
+    <table border="1" >
+       <tr>
+        <td>ID</td>
+        <td> <div>{{ profile.playerId }}</div></td>
+       </tr>
+       <tr>
+        <td>Name</td>
+        <td><div>{{ profile.name }}</div></td>
+       </tr>
+
+       <tr>
+        <td>Email</td>
+        <td><div>{{ profile.email }}</div></td>
+       </tr>
+
+        <tr>
+        <td>Role</td>
+        <td><div> {{ profile.role }}</div></td>
+       </tr>
+
+       <tr>
+        <td>Batting Style:</td>
+        <td><div>{{ profile.battingStyle  }}</div></td>
+       </tr>
+
+       <tr>
+        <td>Bowling Style:</td>
+        <td><div>{{ profile.bowlingStyle }}</div></td>
+       </tr>
+
+       <tr>
+        <td>Gender:</td>
+        {% if profile.gender == 1 %}
+        <td><div>Male</div></td>
+        {% else %}
+        <td><div> Female </div></td>
+        {% endif %}
+       </tr>
+    </table>
+    
+    </div>
 </body>
 </html>
