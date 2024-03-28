@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'playerauction',
-    'appdata'
+    'appdata',
+    'auctionadmin'
 ]
 
 AUTHENTICATION_BACKENDS = [
@@ -93,6 +94,7 @@ DATABASES = {
         'PORT': '3306',
     }
 }
+
 # DESKTOP-GB51G6N
 
 

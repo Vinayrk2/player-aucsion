@@ -7,7 +7,7 @@ max_length_for_id = 40
 
 class AuctionAdmin(models.Model):
     adminId = models.CharField(max_length=40, unique=True, null=False)
-    email    = models.EmailField(max_length=200, unique=True)
+    email    = models.EmailField(max_length=200, unique=True, null=False)
     password = models.CharField(max_length=256)
     subscription = models.BooleanField(default=True)
     name = models.CharField(max_length=max_length_for_id, null=True)
@@ -25,7 +25,7 @@ class Team(models.Model):
         self.password = make_password(self.password)
         super().save(*args, **kwargs)
     logo    = models.ImageField(upload_to="team/",default=None, null=True)
-    captainId = models.OneToOneField('Player', on_delete=models.DO_NOTHING, null=True, default=None)
+    captainId = models.OneToOneField('Player', on_delete=models.DO_NOTHING)
 
 
 
@@ -56,7 +56,7 @@ class Login(models.Model):
 class Auction(models.Model):
     auctionId = models.CharField(max_length=max_length_for_id, unique=True, null=False)
     auctionName = models.CharField(max_length=50, default='')
-    adminId   = models.ForeignKey('AuctionAdmin', on_delete=models.PROTECT)
+    adminId   = models.ForeignKey('AuctionAdmin', on_delete=models.PROTECT, null=True)
     date = models.DateField(auto_now=True)
     initialPoint = models.IntegerField(default=0)
     maxBid = models.IntegerField(default=0)
@@ -64,15 +64,30 @@ class Auction(models.Model):
     status  = models.SmallIntegerField(default=0)
     team  = models.ManyToManyField('Auction', through='Auction_teams')
 
+    def getAuctions(self):
+        return Auction.objects.all()
+
+    def getAuction(self, auctionId):
+        return Auction.objects.get(auctionId=auctionId)
+
+    def addAuction(self):
+        try:
+            self.save()
+        except Exception as e:
+            return {"status":"Error", "message":"There is an error in login"}
+        else:
+            return {"status":"Success", "message":"The Auction Created successfully"}
+
+
 
 # 0 - Remains, 1 - sold, 2 - unsold
 class AuctionPlayer(models.Model):
-    auctionId = models.ForeignKey('Auction', on_delete=models.CASCADE)
-    playerId = models.ForeignKey('Player', on_delete=models.CASCADE)
+    auctionId = models.ForeignKey('Auction', on_delete=models.CASCADE, null=True)
+    playerId = models.ForeignKey('Player', on_delete=models.CASCADE, null=True)
     status = models.SmallIntegerField(default=0)
-    teamId = models.ForeignKey('Team', on_delete=models.DO_NOTHING)
+    teamId = models.ForeignKey('Team', on_delete=models.DO_NOTHING, null=True)
 
 class Auction_teams(models.Model):
-    auctionId = models.ForeignKey('Auction', on_delete=models.CASCADE)
-    teamId    = models.ForeignKey('Team', on_delete=models.CASCADE)
+    auctionId = models.ForeignKey('Auction', on_delete=models.CASCADE, null=True)
+    teamId    = models.ForeignKey('Team', on_delete=models.CASCADE, null=True)
     points    = models.IntegerField(default=0)

@@ -17,6 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from playerauction import urls
+from auctionadmin import urls as adminurl
 from django.urls import include
 from .settings import MEDIA_URL, MEDIA_ROOT
 from django.conf.urls.static import static
@@ -25,4 +26,5 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include(urls)),
+    path('auctionadmin/', include(adminurl))
 ] + static(MEDIA_URL, document_root=MEDIA_ROOT)
