@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,10 +5,112 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Player Register</title>
     <link rel="shortcut icon" href="../../media/Designer.png" type="image/x-icon">
+    <style>
+        #links>a{
+            display: block;
+        }
+        a{
+            text-decoration:none;
+        }
+        *{
+            margin: 0;
+            padding: 0; 
+        }
+        
+        html,body{
+            font-family: 'Ubuntu',sans-serif;
+            height: 100%;
+            background-color: rgb(3, 3, 76);
+        }
+        .navs:link{
+            text-decoration: none;
+            color: red;
+            
+        }
+        .icons{
+            color: white;
+            margin-left: 25px;
+        }
+        
+        .tabs{
+            color:navy;
+            font-weight: bold;
+            margin-right: 105px;
+            font-size: 20px;
+        }
+        
+        body{
+            overflow-x: hidden;
+        }
+        
+        .show_images{
+            margin-top: 50px;
+        }
+        
+        .Prices_section{
+            display: block;
+            align-content: center;margin-left: 120px;
+        
+        }
+        
+        .mynav li a{
+            text-decoration: none;
+            background-color: rgb(3, 3, 76);
+            color: white;
+            font-weight: bold;
+            padding: 8px 20px;
+            margin-top: 15px;
+            display: block;
+        
+        }
+        .upload{
+            width: 100px;
+            position: relative;
+            margin: auto;
+        }
+        
+        .upload img{
+            border-radius: 50%;
+            border: 6px solid #eaeaea;
+        }
+        
+        .upload .round{
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            background: #00B4FF;
+            width: 32px;
+            height: 32px;
+            line-height: 33px;
+            text-align: center;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+        
+        .upload .round input[type='file']{
+            position: absolute;
+            transform: scale(2);
+            opacity: 0;
+        }
+        
+        input[type=file]::-webkit-file-upload-button{
+            cursor: pointer;
+        
+        }
+        
+    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 
 </head>
 <body>
-    <h1>Register Player</h1>
+    {% comment %} <h1>Register Player</h1>
     <form action="playerregister" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         Name : <input type="text" name="name" id="name"><br>
@@ -22,7 +123,7 @@
             <option value="Middleorder">Middle Order Batsman</option>
             <option value="Middleorder">Lower Order Batsman</option>
             <option value="Wicket-keeper">Wicket-keeper Batsman</option>
-            <option value="Allrounder">All Rounder</option>
+            <option value="allrounder">All Rounder</option>
             <option value="bowler">Bowler</option>
         </select>
 
@@ -34,7 +135,7 @@
 
         BowlingStyle : <select name="bowlingStyle" id="battingstyle">
             <option value="Right-arm-fast">Right-arm Fast</option>
-            <option value="Right-arm-Medium">Right-arm Medium</option>
+            <option value="Right-arm- Medium">Right-arm Medium</option>
             <option value="Left-arm-fast">Left-arm Fast</option>
             <option value="Left-arm-Medium">Left-arm Medium</option>
             <option value="Leg-spinner">Leg spinner</option>
@@ -50,6 +151,275 @@
         
         <input type="submit" value="Enter To The System">
     
-    </form>
+    </form> {% endcomment %}
+    <div class="" style="background-color: rgb(3, 3, 76);">
+
+        <nav class="navbar navbar-expand-lg">
+            <div class="container-fluid">
+                <a class="navbar-brand icons" href="#"><i class="fa fa-facebook-square" aria-hidden="true"></i></a>
+                <a class="navbar-brand icons" href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+                <a class="navbar-brand icons" href="#"><i class="fa fa-twitter-square" aria-hidden="true"></i></a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link active text-light" aria-current="page" href="#"
+                                style="font-weight: bold;">Register</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active text-light" aria-current="page" href="#"
+                                style="font-weight: bold;">Login</a>
+                        </li>
+
+                        <!-- <form class="d-flex">
+                  <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                  <button class="btn btn-outline-success" type="submit">Search</button>
+                </form> -->
+                </div>
+            </div>
+        </nav>
+
+        <nav class="navbar navbar-expand-lg bg-light">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#"
+                    style="font-weight:bolder;text-align: center;margin-left: 35px;font-size: 25px;color: navy;">Bid
+                    <br> Players</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link active tabs" aria-current="page" href="#">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link tabs" href="#about_us">About Us</a>
+                        </li>
+                        <!-- <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      Dropdown
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                      <li><a class="dropdown-item" href="#">Action</a></li>
+                      <li><a class="dropdown-item" href="#">Another action</a></li>
+                      <li><hr class="dropdown-divider"></li>
+                      <li><a class="dropdown-item" href="#">Something else here</a></li>
+                    </ul>
+                  </li> -->
+                        <li class="nav-item">
+                            <a class="nav-link  tabs" href="#price_section">Pricing</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link  tabs" href="#">Contact Us</a>
+                        </li>
+
+
+                        <!-- <form class="d-flex">
+                  <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                  <button class="btn btn-outline-success" type="submit">Search</button>
+                </form> -->
+                </div>
+            </div>
+        </nav>
+
+        <div class="container d-flex justify-content-center my-5">
+            <div class="card" style="width: 30rem;background-color: skyblue;border-radius: 20px;">
+                <h2 class="text-center my-3" style="color: rgb(3, 3, 76);font-weight: bold;">Bid <br> Players</h2>
+                <form action="playerregister" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                <div class="card-body">
+                    <div class="upload">
+                        <i class="fa fa-user" aria-hidden="true" style="font-size: 120px;"></i>
+                        <div class="round">
+                            <input type="file" name="image" id="image" accept="image/*">
+                            <i class="fa fa-camera" style="color: #fff;"></i>
+                        </div>
+                    </div>
+                    <div class="my-5">
+
+                        <div class="row my-2">
+                            <div class="col-sm">
+                                <input type="text" class="form-control text-center" style="border-radius: 15px;"
+                                    placeholder="Player Name" name="name" id="name">
+                            </div>
+                        </div>
+                        
+                        <div class="row my-2">
+                            <div class="col-sm">
+                                <input type="text" class="form-control text-center" style="border-radius: 15px;"
+                                    placeholder="User Name" name="playerId" required>
+                            </div>
+                        </div>
+
+                        <div class="row my-2">
+                            <div class="col-sm">
+                                <input type="email" class="form-control text-center" style="border-radius: 15px;"
+                                name="email" id="email" placeholder="Email">
+                            </div>
+                        </div>
+                        
+                        <div class="row my-2">
+                            <div class="col-sm">
+                                <input type="password" class="form-control text-center" style="border-radius: 15px;"
+                                name="password" id="" placeholder="Password">
+                            </div>
+                        </div>
+                       <hr>
+                        <div class="row my-2">
+                            <div class="col-sm-3">
+                                <label for="role" class="form-label" name="role" id="role"
+                                    style="font-size: 22px;margin-left: 20px;color:rgb(3, 3, 76);font-weight: bold;">Role
+                                    :</label>
+                            </div>
+                            <div class="col-sm-9">
+                                <select name="role" id="role" class="form-select text-center"
+                                    style="border-radius: 15px;">
+                                    <option value="Top Order">Top Order Batsman</option>
+                                    <option value="Middle Order">Middle Order Batsman</option>
+                                    <option value="Middle Order">Lower Order Batsman</option>
+                                    <option value="Wicket-Keeper">Wicket-keeper Batsman</option>
+                                    <option value="Allrounder">All Rounder</option>
+                                    <option value="Bowler">Bowler</option>
+                                </select>
+                            </div>
+                        </div>
+                        <hr>
+                        
+                        <div class="row my-2">
+                            <div class="col-sm">
+                                <label for="batting_style"
+                                    style="font-size: 20px;margin-left: 15px;color:rgb(3, 3, 76);font-weight: bold;">Batting
+                                    Style :</label>
+                            </div>
+                        </div>
+                       
+                        <div class="row">
+                            <div class="col-sm">
+                                <select name="battingStyle" id="battingstyle" class="form-select text-center"
+                                    style="border-radius: 15px;">
+                                    <option value="Right-hand Batsman" >Right-hand batsman</option>
+                                    <option value="Left-hand Batsman" >Left-hand batsman</option>
+
+                                </select>
+                            </div>
+                        </div>
+                        <hr>
+
+                        <div class="row my-2">
+                            <div class="col-sm">
+                                <label for="bowling_style"
+                                    style="font-size: 20px;margin-left: 15px;color:rgb(3, 3, 76);font-weight: bold;">Bowling
+                                    Style :</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm">
+                                <select id="bowling_style" class=" form-select text-center"
+                                    style="border-radius: 15px;" name="bowlingStyle">
+                                    <option value="Right-arm fast">Right-arm Fast</option>
+                                    <option value="Right-arm Medium">Right-arm Medium</option>
+                                    <option value="Left-arm fast">Left-arm Fast</option>
+                                    <option value="Left-arm Medium">Left-arm Medium</option>
+                                    <option value="Leg-spinner">Leg spinner</option>
+                                    <option value="Off-spinner">Off spinner</option>
+                                    <option value="None">NONE</option>
+                                </select>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row my-3">
+                            <div class="col-sm">
+                                <label for="Gender" style="color: rgb(3, 3, 76);font-size: 20px;" ><b>Gender :</b></label>
+                            </div>
+
+                            <div class="col-sm">
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" checked name="gender" value=1 >
+                                <label class="form-check-label" style="color: rgb(3, 3, 76);font-size: 20px;">
+                                    <b>Male</b>
+                                </label>
+                            </div>
+                 
+                            </div>
+                            <div class="col-sm">
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="gender" value=0>
+                                <label class="form-check-label" style="color: rgb(3, 3, 76);font-size: 20px;">
+                                    <b>Female</b>
+                                </label>
+                            </div>
+                        </div>
+                    
+                        <div class="row my-3">
+                            <div class="col-sm-3">
+                                <label for="role" class="form-label"
+                                    style="font-size: 22px;margin-left: 20px;color:rgb(3, 3, 76);font-weight: bold;">Age :</label>
+                            </div>
+                            <div class="col-sm-9">
+                                <input type="number" class="form-control" style="border-radius: 15px;" name="age" id="age">
+                            </div>
+                        </div>
+                        
+                        <div class="row d-block mx-auto">
+                            <button style="background-color: rgb(3, 3, 76);color: white;font-size: x-large;margin-top: 20px;border-radius: 20px;" type="submit">Register</button>
+                        </div>
+                        </div>
+                        <div>
+                            <a href="register?reg=2">
+                                <h5 class="text-center" style="color: rgb(3, 3, 76);font-weight: bold;font-size: 18px;">Register as Team Captain ? <u>Click Here</u></h5>
+                            </a>
+                            <a href="adminreg">
+                                <h5 class="text-center" style="color: rgb(3, 3, 76);font-weight: bold;font-size: 18px;">Register as Auction Admin ? <u>Click Here</u></h5>
+                            </a>
+                        </div>
+                    </div>
+                    
+                </form> 
+                </div>
+
+            </div>
+            
+        </div>
+
+
+    </div>
+    <div class="">
+
+        <footer class="text-center text-lg-start" style="background-color: rgb(3, 3, 76);">
+            <div class="container d-flex justify-content-center py-5">
+                <button type="button" class="btn btn-primary btn-lg btn-floating mx-2"
+                    style="background-color: #54456b;">
+                    <i class="fa fa-facebook-f"></i>
+                </button>
+                <button type="button" class="btn btn-primary btn-lg btn-floating mx-2"
+                    style="background-color: #54456b;">
+                    <i class="fa fa-youtube"></i>
+                </button>
+                <button type="button" class="btn btn-primary btn-lg btn-floating mx-2"
+                    style="background-color: #54456b;">
+                    <i class="fa fa-instagram"></i>
+                </button>
+                <button type="button" class="btn btn-primary btn-lg btn-floating mx-2"
+                    style="background-color: #54456b;">
+                    <i class="fa fa-twitter"></i>
+                </button>
+            </div>
+
+            <!-- Copyright -->
+            <div class="text-center text-white p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+                © 2020 Copyright:
+                <a class="text-white" href="https://mdbootstrap.com/">BidPlayers.com</a>
+            </div>
+            <!-- Copyright -->
+        </footer>
+
+    </div>
+
 </body>
 </html>
