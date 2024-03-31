@@ -20,9 +20,11 @@ from playerauction import urls
 from django.urls import include
 from .settings import MEDIA_URL, MEDIA_ROOT
 from django.conf.urls.static import static
+from mainAuction.urls import websocket_urlpatterns as ws_urls
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include(urls)),
+    path('auction/', include(ws_urls)),
 ] + static(MEDIA_URL, document_root=MEDIA_ROOT)

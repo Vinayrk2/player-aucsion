@@ -153,6 +153,21 @@ def player_profile(request):
 
 def create_auction(request):
     if request.session.get('user') and request.session.get("user") == 1:
+        if request.method == "POST":
+            auctionid = request.POST.get("auctionId")
+            auctionname = request.POST.get("auctionName")
+            initPoint = request.POST.get("initialPoint")
+            maxBid = request.POST.get("maxBid")
+            location = request.POST.get("location")
+
+            auction = Auction()
+            auction.auctionId = auctionid
+            auction.auctionName = auctionname
+            auction.initialPoint = initPoint
+            auction.maxBid = maxBid
+            auction.adminId = AuctionAdmin.objects.get(adminId=request.session.get("id"))
+
+            auction.save()
         return render(request, 'create_auction.html', {})
     else:
         return render(request, "error.html", {'Error':"Unauthorized User Access ", "code":"403"})
