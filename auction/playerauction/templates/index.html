@@ -73,10 +73,15 @@
     integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 </head>
 <body>
-    {{ request.session.id }}
+
+    {{ request.session.id }} 
+{% comment %} <h1><script>
+alert('{{ request.session.id }} Login Successfull !! ')
+</script></h1> {% endcomment %}
+   
 
    
-    <div id="links">
+    {% comment %} <div id="links">
         <a href="register?reg=2"> Register </a>
         <a href="playerregister">Player Registration</a>
         <a href="adminreg"> Admin Registration </a>
@@ -88,7 +93,7 @@
         <a href="playerprofile">Player Profile</a>
         <a href="teamprofile">Team home</a>
         <a href="logout"> Logout </a>
-    </div>
+    </div> {% endcomment %}
     <div class="" style="background-color: rgb(3, 3, 76);">
 
         <nav class="navbar navbar-expand-lg">
@@ -141,31 +146,15 @@
                             <a class="nav-link active tabs" aria-current="page" href="#">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link tabs" href="#about_us">About Us</a>
+                            <a class="nav-link tabs" href="playerprofile">Player Profile</a>
                         </li>
-                        <!-- <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                      Dropdown
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                      <li><a class="dropdown-item" href="#">Action</a></li>
-                      <li><a class="dropdown-item" href="#">Another action</a></li>
-                      <li><hr class="dropdown-divider"></li>
-                      <li><a class="dropdown-item" href="#">Something else here</a></li>
-                    </ul>
-                  </li> -->
+                 
                         <li class="nav-item">
-                            <a class="nav-link  tabs" href="#price_section">Pricing</a>
+                            <a class="nav-link  tabs" href="teamprofile">Team Profile</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link  tabs" href="#">Contact Us</a>
                         </li>
-
-
-                        <!-- <form class="d-flex">
-                  <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                  <button class="btn btn-outline-success" type="submit">Search</button>
-                </form> -->
                 </div>
             </div>
         </nav>
@@ -229,7 +218,7 @@
                 </div>
                 <div class="col-sm">
                     <!-- <img width="700px" src="20240208_004054-removebg-preview.png" alt="" style="background-color: white;margin-left:50px;border-radius: 5%;"> -->
-                    <img width="700px" src="{% static 'player-registration-form.jpg'%}" alt=""
+                    <img width="700px" src="{% static 'registeration_form.png'%}" height="1500px" alt=""
                         style="background-color: white;border-radius: 5%;">
                         
                 </div>
@@ -238,8 +227,8 @@
 
             <div class="row show_images my-5">
                 <div class="col-sm">
-                    <img width="700px" src={% static "20240208_004054-removebg-preview.png"%} alt=""
-                        style="background-color: white;margin-left:50px;border-radius: 5%;">
+                    <img width="750px" height="500px" src={% static "auction_display.png"%} alt=""
+                        style="background-color: white;margin-left:50px;border-radius: 5%;border:2px solid white">
 
                 </div>
                 <div class="col-sm">
