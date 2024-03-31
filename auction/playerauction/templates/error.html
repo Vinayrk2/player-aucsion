@@ -60,12 +60,11 @@ a:hover {
 <body>
     
     <div class="error-container"> 
-        <h1> 404 </h1> 
-        <p> 
-            Oops! The page you're 
-            looking for is not here. 
+        <h1 style="font-family: monospace;"> {{ code }}  </h1><span><div style="font-family: monospace;">{{ status }}</div></s></span> 
+        <p style="font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;"> 
+           {{ Error }}
         </p> 
-        <a href="http://127.0.0.1:8000/"> 
+        <a href="http://127.0.0.1:8000/" style="font-family:sans-serif"> 
             Go Back to Home 
         </a> 
     </div> 
