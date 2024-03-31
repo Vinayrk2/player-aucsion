@@ -50,7 +50,7 @@ def login(request, user):
                 encoded = user.password
                 if check_password(password, encoded):
                     request.session['user'] = 1
-                    request.session['id'] = user.id
+                    request.session['id'] = user.adminId
                     request.session['entity'] = user.name
                 else:
                     raise Exception("Incorrect Password")                    
@@ -258,10 +258,9 @@ def addTeam(request):
     if request.session.get('user') and request.session.get("user") == 1:
         if request.method == "POST":
             try:
+                admin = AuctionAdmin.objects.get(id=request.session.get("id")) 
                 teamId = request.POST.get("teamId")
 
-                if Auction_teams.objects.get(teamId=teamId):
-                    raise IntegrityError("Team Already In the Auction.")
                 team = Team.objects.get(teamId=teamId)
 
                 auctionid = request.POST.get("auctionid")
@@ -273,18 +272,19 @@ def addTeam(request):
                 auctionTeam.save()
 
             except IntegrityError as e:
-                return render(request, "error.html", {"Error":"Team Does Not Exists", "code":"404"})
+                return render(request, "error.html", {"Error":"TEam Already Exists", "code":"400"})
                 # return render(request, "error.html", {"Error":e})
        
             except Exception as e:
-                return render(request, "error.html", {"Error":"Team Does Not Exists", "code":"404"})
+                return render(request, "error.html", {"Error":e, "code":"404"})
                 # return render(request, "error.html", {"Error":e})
-        auctions = Auction.objects.filter(adminId=request.session.get('id'))
-        teams = Auction_teams.objects.select_related('teamId')
+        # auctions = Auction.objects.filter(adminId=request.session.get('id'))
+        # teams = Auction_teams.objects.select_related('teamId')
+        admin = AuctionAdmin.objects.get(id=request.session.get("id")) 
+        auctions = admin.auction_set.all()
 
-        print(teams)
 
-        return render(request, "forms/addteam.html", {'teams': teams, 'auctions':auctions})
+        return render(request, "forms/addteam.html", {'auctions':auctions})
         # return render(request, "forms/addteam.html", {'auctions':auctions})
     else:
         return render(request, "error.html", {'Error':"Unauthorized User Access", "code":"403"})
