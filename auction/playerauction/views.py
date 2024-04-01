@@ -50,7 +50,7 @@ def login(request, user):
                 encoded = user.password
                 if check_password(password, encoded):
                     request.session['user'] = 1
-                    request.session['id'] = user.adminId
+                    request.session['id'] = user.id
                     request.session['entity'] = user.name
                 else:
                     raise Exception("Incorrect Password")                    
@@ -118,7 +118,7 @@ def player_register(request):
                 return HttpResponseRedirect('player/login',{'message':'player'})
             else:
                 # return render(request, 'Error.html', {"Error":"Player Already Exists"})
-                return render(request, 'Error.html', {"Error":player.errors, "code":"400", "status":"Bad Request"})
+                return render(request, 'error.html', {"Error":player.errors, "code":"400", "status":"Bad Request"})
         except Exception as e:
             return render(request, 'Error.html', {"Error":e, "code":"400", "status":"Bad Request"})
 
@@ -168,7 +168,9 @@ def create_auction(request):
             auction.adminId = AuctionAdmin.objects.get(adminId=request.session.get("id"))
 
             auction.save()
-        return render(request, 'create_auction.html', {})
+            return render(request, 'auction_home.html', {})
+        else:
+            return render(request, 'create_auction.html', {})
     else:
         return render(request, "error.html", {'Error':"Unauthorized User Access ", "code":"403"})
 def auction_admin(request):
@@ -233,9 +235,13 @@ def adminReg(request):
 def adminHome(request):
 
     if request.session.get('user') and request.session.get("user") == 1:
-        return render(request,'admin_home.html',{})
+        auctions = Auction.objects.filter(adminId=request.session.get('id'))
+        print(auctions)
+
+        return render(request,'admin_home.html',{'auctions':auctions})
 
     else:
+
         return render(request, "error.html", {'Error':"Unauthorized User Access ", "code":"403"})
 
 def getForm(request):
@@ -292,3 +298,36 @@ def addTeam(request):
     return render(request, "forms/addTeam.html",{})
     # return HttpResponseRedirect('getform?form=addteam')
 
+def startAuction(request, dashboard):
+    if(request.session.get("user") and request.session.get("user") == 1):
+        if request.method == "POST":
+            try:
+                auctionid = (request.POST.get("auctionid"))
+                auction = Auction.objects.get(auctionId=auctionid)
+                auction.status = 1
+                auction.save()
+                return render(request, "live_auction.html", {})
+            except Exception as e:
+                return render(request, "error.html", {"Error":e,"code":400})
+        
+        else:
+            return HttpResponseRedirect('/auctionadmin')
+    else:
+        
+        return render(request, 'admin_home.html', {})
+
+def liveauction(request, auctionid):
+    print(auctionid)
+    if auctionid == '':
+        return render(request, "error.html", {"Error":"Auction not Available", "code":"--"})
+
+    auction_teams = Auction_teams.objects.filter(auctionId=auctionid)
+    
+    teams = []
+    for team in auction_teams:
+        teams.add(team.teamId)
+
+    print(teams)
+
+    if request.session.user == 2:
+        return render(request, 'live_auction.html', {})

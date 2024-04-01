@@ -8,6 +8,7 @@ channel_layer = get_channel_layer()
 class MyConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         self.room_name = self.scope['url_route']['kwargs']['dashboard']
+        print(self.room_name)
         self.room_group_name = 'auction_%s' % self.room_name
 
         print("Conncted")

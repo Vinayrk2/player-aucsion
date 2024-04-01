@@ -162,18 +162,21 @@
                             </div>
                         </div> -->
                         <div class="container my-2">
-                            
-                            <div class="row my-2">
+                            <form action="auctionadmin/addplayer" method="post">
+                                {% csrf_token %}
+                                <div class="row my-2">
                                 <div class="col-sm-4">   
                                     <label for="Admin_ID" class="form-label" style="color: rgb(3, 3, 76);font-weight: bold;font-size:20px">Player ID :</label> 
                                 </div>
+                                
                                 <div class="col-sm">
-                                    <input type="text" name="Admin_ID" id="Admin_ID" class="text-center form-control" style="border-radius: 25px;background-color: lightgray;">
+                                    <input type="text" name="playerId" id="Admin_ID" class="text-center form-control" style="border-radius: 25px;background-color: lightgray;">
                                 </div>
                                 
                             </div>
                             <button class="btn d-block mx-auto my-4" style="background-color: rgb(3, 3, 76);color: white;font-weight: bold;" type="submit">Fetch Player Details</button>
                         </div>
+                    </form>
                     </fieldset>
                 </div>
 
@@ -197,7 +200,7 @@
                             </div>
                         </div> -->
                         <div class="container my-2">
-                            <form action="{% url "add" %}" method="post">
+                            <form action="" method="post">
                                 {% csrf_token %}
 
                                 <div class="upload">

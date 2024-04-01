@@ -12,7 +12,22 @@
     <a href="getform"><button type="button" onclick="loadForm('auction')"> Create Auction </button></a>
     <a href="addplayer"><button type="button" onclick="loadForm('team')"> Add Team </button></a>
     <a href="addteam"><button type="button" onclick="loadForm('player')"> Add Player </button></a>
-    <a href="startauction"><button> StartAuction </button></a>
+
+    <form action="startauction" method="POST">
+        {% csrf_token %}
+        {% if auctions != None %}
+        <select name="auctionid" id="auctionid">
+            {% for auction in auctions %}
+            <option value="{{ auction.auctionId }}">{{ auction.auctionName }}</option>
+            {% endfor %}
+            
+            {% endif %}
+        </select>
+        <button onclick="document.forms[0].action += '/' + document.getElementById('auctionid').value"> StartAuction </button></a>
+    
+    
+
+    </form>
     <div id="container">
         {% block  content %} {% endblock %}
     </div>

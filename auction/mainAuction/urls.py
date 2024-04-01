@@ -3,6 +3,5 @@ from . import views
 
 websocket_urlpatterns = [
     path('', views.auctionStart, name='auctionstart'),
-    path('auction/<auctionid>', views.dashboard, name="dashboard"),
-    path('startauction', views.startauction, name="startauction"),
+    path('liveauction/<auctionid>', views.dashboard, name="dashboard"),
 ]

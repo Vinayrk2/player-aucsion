@@ -1,5 +1,6 @@
 from . import views
-from django.urls import path
+from django.urls import path, include
+from mainAuction.urls import websocket_urlpatterns
 
 urlpatterns = [
     path('', views.index, name='index'),
@@ -20,7 +21,7 @@ urlpatterns = [
     path('getcaptain',views.getCaptain, name='getCaptain'),
     path('getform',views.getForm, name='getform'),
     path('addplayer',views.addPlayer, name='addplayer'),
-    path('addteam',views.addTeam, name='addteam')
-
-
+    path('addteam',views.addTeam, name='addteam'),
+    path('startauction/<dashboard>', views.startAuction, name='startauction'),
+    path('liveauction/<str:auctionid>', views.liveauction, name='liveauction')
 ]   
