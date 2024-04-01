@@ -74,11 +74,14 @@
 </head>
 <body>
 
-    {{ request.session.id }} 
-{% comment %} <h1><script>
-alert('{{ request.session.id }} Login Successfull !! ')
-</script></h1> {% endcomment %}
-   
+    {% if  request.session.id %} 
+<script>
+
+function showalert(){
+    alert(' Login Successfull !! ')
+}
+</script>
+   {% endif %}
 
    
     {% comment %} <div id="links">
@@ -116,12 +119,12 @@ alert('{{ request.session.id }} Login Successfull !! ')
                             <a class="nav-link active text-light" aria-current="page" href="player/login"
                                 style="font-weight: bold;">Login</a>
                         </li>
+
                         
                         <li class="nav-item">
                             <a class="nav-link active text-light" aria-current="page" href="logout"
                                 style="font-weight: bold;">Log Out</a>
                         </li>
-
                         <!-- <form class="d-flex">
                   <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                   <button class="btn btn-outline-success" type="submit">Search</button>
@@ -143,7 +146,7 @@ alert('{{ request.session.id }} Login Successfull !! ')
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link active tabs" aria-current="page" href="#">Home</a>
+                            <a class="nav-link active tabs" aria-current="page" href="/">Home</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link tabs" href="playerprofile">Player Profile</a>
@@ -383,6 +386,5 @@ alert('{{ request.session.id }} Login Successfull !! ')
         </footer>
 
     </div>
-
 </body>
 </html>
