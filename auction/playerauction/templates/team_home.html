@@ -5,12 +5,60 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Team Home</title>
     <link rel="shortcut icon" href="../../media/Designer.png" type="image/x-icon">
+    <style>
+        .welcome-team {
+            text-align: center;
+            margin: 50px 0;
+          }
+          
+          .welcome-team img {
+            border-radius: 50%;
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+            margin-bottom: 20px;
+          }
+          
+          .welcome-team h3 {
+            font-size: 28px;
+            margin-top: 0;
+          }
+          
+          .welcome-team.team {
+            display: inline-block;
+            text-align: left;
+            margin: 10px;
+          }
+          
+          .welcome-team .team p {
+            font-size: 18px;
+            line-height: 1.5;
+            margin: 0;
+            color:Black;
+
+
+          }
+
+          .welcome-team .team p b {
+            font-size: 18px;
+            line-height: 1.5;
+            margin: 0;
+            color:Black;
+            text-transform:capitalize;
+
+
+          }
+    </style>
 
 </head>
 <body>
-    Welcome Team
+    <div class="welcome-team">
+    <h3>Welcome Team {{team.name}} </h3>
     <img src="{{ team.logo }}" alt="" height="200px" width="200px" style="border-radius: 10%;">
-    {{ team.id }}
-    {{ team.name}}
+    <div class="team">
+    <p><b>ID:</b> {{ team.id }}</p>
+    <p><b>Name :</b> {{ team.name }} </p>
+    </div>
+</div>
 </body>
 </html>
