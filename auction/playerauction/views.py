@@ -132,9 +132,8 @@ def live_auction(request):
 def old_auction(request):
     return render(request, 'old_auction.html', {})
 
-def player_profile(request):
-    if request.session.get("user") and request.session.get("user") == 3:
-        player_details = Player.objects.get(playerId=request.session.get("id"))
+def player_profile(request, playerid):
+        player_details = Player.objects.get(playerId=playerid)
         player_profile = {
             "name": player_details.name,
             "age" : player_details.age,
@@ -148,8 +147,8 @@ def player_profile(request):
         player_profile["image"] = "" if player_details.image == None else player_details.image.url 
         print(player_profile['image'])
         return render(request, 'player_profile.html', {'profile': player_profile})
-    else:
-        return render(request, "error.html", {'Error':"Unauthorized User Access ", "code":"403"})
+    # else:
+    #     return render(request, "error.html", {'Error':"Unauthorized User Access ", "code":"403"})
 
 def create_auction(request):
     if request.session.get('user') and request.session.get("user") == 1:
