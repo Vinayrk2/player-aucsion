@@ -34,6 +34,9 @@ MEDIA_ROOT= os.path.join(BASE_DIR, 'media/')
 # Application definition
 
 INSTALLED_APPS = [
+    'channels',
+    'channels.layers',
+    'daphne',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -41,8 +44,15 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'playerauction',
-    'appdata'
+    'appdata',
+    'mainAuction'
 ]
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels.layers.InMemoryChannelLayer'
+    },
+}
 
 AUTHENTICATION_BACKENDS = [
     "django.contrib.auth.backends.ModelBackend",
@@ -77,7 +87,8 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'auction.wsgi.application'
+# WSGI_APPLICATION = 'auction.wsgi.application'
+ASGI_APPLICATION = 'auction.asgi.application'
 
 
 # Database
@@ -136,3 +147,11 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+
+
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+    
+]

@@ -12,10 +12,12 @@
     Team Id : <input type="text" name="teamId" id="id">
     <button onclick="addTeam()"> Submit </button>
 </form>
+{% if teams %}
 {% for team in teams %}
     <div>
         <img src="{{ team.logo }}" alt="">
         {{ team.name }}</div>
 {% endfor %}
+{% endif %}
 {% endblock %}
 
