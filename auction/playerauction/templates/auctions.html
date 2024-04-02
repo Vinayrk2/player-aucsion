@@ -1,0 +1,9 @@
+{% include 'header.html' %}
+
+{% if auctions != None %}
+{% for auction in auctions %}
+    <div>{{ auction.auctionName }}</div>
+    <div>{{ auction.date }}</div>
+    <div>{{ auction.location }}</div>
+{% endfor %}
+{% endif %}

@@ -21,7 +21,8 @@ urlpatterns = [
     path('getcaptain',views.getCaptain, name='getCaptain'),
     path('getform',views.getForm, name='getform'),
     path('addplayer',views.addPlayer, name='addplayer'),
-    path('addteam',views.addTeam, name='addteam')
+    path('addteam',views.addTeam, name='addteam'),
+    path('allauctions', views.allAuctions, name='allAuction')
 
 
 ]   

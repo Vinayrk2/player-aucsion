@@ -292,3 +292,7 @@ def addTeam(request):
     return render(request, "forms/addTeam.html",{})
     # return HttpResponseRedirect('getform?form=addteam')
 
+def allAuctions(request):
+    auctions = Auction.objects.all()
+
+    return render(request, "auctions.html", {'auctions':auctions})
