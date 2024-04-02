@@ -7,6 +7,66 @@ crossorigin="anonymous"></script>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
 integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 
+<style>
+    #links>a{
+        display: block;
+    }
+    *{
+        margin: 0;
+        padding: 0; 
+    }
+    
+    html,body{
+        font-family: 'Ubuntu',sans-serif;
+        height: 100%;
+        background-color: rgb(3, 3, 76);
+    }
+    .navs:link{
+        text-decoration: none;
+        color: red;
+        
+    }
+    .icons{
+        color: white;
+        margin-left: 25px;
+    }
+    
+    .tabs{
+        color:navy;
+        font-weight: bold;
+        margin-right: 105px;
+        font-size: 20px;
+    }
+    
+    body{
+        overflow-x: hidden;
+    }
+    
+    .show_images{
+        margin-top: 50px;
+    }
+    
+    .Prices_section{
+        display: block;
+        align-content: center;margin-left: 120px;
+    
+    }
+    
+    .mynav li a{
+        text-decoration: none;
+        background-color: rgb(3, 3, 76);
+        color: white;
+        font-weight: bold;
+        padding: 8px 20px;
+        margin-top: 15px;
+        display: block;
+    
+    }
+    
+   
+</style>
+
+
 <nav class="navbar navbar-expand-lg">
     <div class="container-fluid">
         <a class="navbar-brand icons" href="#"><i class="fa fa-facebook-square" aria-hidden="true"></i></a>
@@ -21,20 +81,21 @@ integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQV
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                 {% if 'user' not in request.session %}
                 <li class="nav-item">
-                    <a class="nav-link active text-light" aria-current="page" href="playerregister"
+                    <a class="nav-link active text-light bg-primary mx-1" aria-current="page" href="playerregister"
                         style="font-weight: bold;">Register</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active text-light" aria-current="page" href="player/login"
+                    <a class="nav-link active text-light bg-primary mx-1" aria-current="page" href="player/login"
                         style="font-weight: bold;">Login</a>
                 </li>
                 {% endif %}
 
-                
+                {% if 'user' in request.session %}
                 <li class="nav-item">
-                    <a class="nav-link active text-light" aria-current="page" href="logout"
+                    <a class="nav-link active text-light bg-danger mx-1" aria-current="page" href="logout"
                         style="font-weight: bold;">Log Out</a>
                 </li>
+                {% endif %}
         </div>
     </div>
 </nav>
@@ -42,8 +103,7 @@ integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQV
 <nav class="navbar navbar-expand-lg bg-light">
     <div class="container-fluid">
         <a class="navbar-brand" href="#"
-            style="font-weight:bolder;text-align: center;margin-left: 35px;font-size: 25px;color: navy;">Bid
-            <br> Players</a>
+            style="font-weight:bolder;text-align: center;margin-left: 35px;font-size: 25px;color: navy;">Bid Players</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
             data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
             aria-expanded="false" aria-label="Toggle navigation">

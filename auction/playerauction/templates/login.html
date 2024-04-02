@@ -160,17 +160,7 @@
                         <li class="nav-item">
                             <a class="nav-link tabs" href="#about_us">About Us</a>
                         </li>
-                        <!-- <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                      Dropdown
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                      <li><a class="dropdown-item" href="#">Action</a></li>
-                      <li><a class="dropdown-item" href="#">Another action</a></li>
-                      <li><hr class="dropdown-divider"></li>
-                      <li><a class="dropdown-item" href="#">Something else here</a></li>
-                    </ul>
-                  </li> -->
+
                         <li class="nav-item">
                             <a class="nav-link  tabs" href="#price_section">Pricing</a>
                         </li>
@@ -178,21 +168,17 @@
                             <a class="nav-link  tabs" href="#">Contact Us</a>
                         </li>
 
-
-                        <!-- <form class="d-flex">
-                  <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                  <button class="btn btn-outline-success" type="submit">Search</button>
-                </form> -->
                 </div>
             </div>
         </nav>
 
         <div class="container d-flex justify-content-center my-5">
-            <div class="card" style="width: 20rem;background-color: skyblue;border-radius: 20px;height: 30rem;">
+            <div class="card" style="width: 20rem;background-color: skyblue;border-radius: 20px;height: auto;">
                 <h2 class="text-center my-3" style="color: rgb(3, 3, 76);font-weight: bold;">Bid <br> Players</h2>
+                <h5 class="text-center text-uppercase">{{ user }} Login</h5>
                 <form action="login" method="post">
                     {% csrf_token %}
-                <div class="card-body">
+                <div class="card-body ">
                         <div class="row my-2">
                             <div class="col-sm">
                                 <input type="email" class="form-control form-control-lg text-center" style="border-radius: 15px;"
@@ -210,8 +196,11 @@
 
                        <div class="my-5">
                         <button class="btn mx-auto d-block" type="submit" style="background-color: rgb(3, 3, 76);color: white;">Log In</button>
-                        <a href=""><h6 class="text-center my-3">Forget Password</h6></a>
-                       </div>
+                        <a href="/team/login"><h6 class="text-center my-3">Login As Team ? </h6></a>
+                        <a href="/auctionadmin/login"><h6 class="text-center my-3">Login As Admin ? </h6></a>
+                        <a href="/player/login"><h6 class="text-center my-3">Login As Player ? </h6></a>
+                    </div>
+                    <a href=""><h6 class="text-center my-3">Forget Password</h6></a>
 
                        <div class="my-5">     
                        </div>

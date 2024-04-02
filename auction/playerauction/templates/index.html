@@ -110,9 +110,9 @@ function showalert(){
         </div>
         <div class="row">
             <div class="col-sm" style="margin-top: -250px;display: block;">
-                <a href="auctionadmin/login"><button class="btn"
+                <button class="btn" onclick="checkfunc()"
                     style="margin-left: 50px;color: white;background-color: rgb(6, 91, 183);font-weight: bold;font-size: 25px;border-radius: 25%;">Create a
-                    Auction</button></a>
+                    Auction</button>
             </div>
         </div>
 
@@ -320,5 +320,19 @@ function showalert(){
         </footer>
 
     </div>
+
+    <script>
+        const user = {%if 'user' in request.session %}{{ request.session.user}}{% else %} '' {% endif %}
+
+        function checkfunc(){
+            if(user == 1 || user == ''){
+                window.location.assign("auctionadmin/login")
+            }
+            else{
+                alert("Only Auction Admin Has Access")
+            }
+        }
+
+    </script>
 </body>
 </html>
