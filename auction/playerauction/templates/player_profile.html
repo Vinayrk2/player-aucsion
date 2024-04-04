@@ -50,6 +50,7 @@
             border-radius: 2px;
             overflow: hidden;
             box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+            background-color:white;
         }
         
         .player table {
@@ -129,71 +130,7 @@
 
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg" style="background-color:rgb(3,3,76)">
-        <div class="container-fluid">
-            <a class="navbar-brand icons" href="#"><i class="fa fa-facebook-square" aria-hidden="true"></i></a>
-            <a class="navbar-brand icons" href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a>
-            <a class="navbar-brand icons" href="#"><i class="fa fa-twitter-square" aria-hidden="true"></i></a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link active text-light" aria-current="page" href="playerregister"
-                            style="font-weight: bold;">Register</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active text-light" aria-current="page" href="player/login"
-                            style="font-weight: bold;">Login</a>
-                    </li>
-                    
-                    <li class="nav-item">
-                        <a class="nav-link active text-light" aria-current="page" href="logout"
-                            style="font-weight: bold;">Log Out</a>
-                    </li>
-
-                    <!-- <form class="d-flex">
-              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-              <button class="btn btn-outline-success" type="submit">Search</button>
-            </form> -->
-            </div>
-        </div>
-    </nav>
-
-    <nav class="navbar navbar-expand-lg bg-light">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#"
-                style="font-weight:bolder;text-align: center;margin-left: 35px;font-size: 25px;color: navy;">Bid
-                <br> Players</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link active tabs" aria-current="page" href="/home">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link tabs" href="playerprofile">Player Profile</a>
-                    </li>
-           
-                    <li class="nav-item">
-                        <a class="nav-link  tabs" href="teamprofile">Team Profile</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link  tabs" href="#">Contact Us</a>
-                    </li>
-
-
-         
-            </div>
-        </div>
-    </nav>
+    {% include "header.html" %}
     <h1> Player Profile</h1>
     <img src="{{ profile.image }}" alt="" height="200px" width="200px" style="border-radius: 10%;">
     <div class="player">
