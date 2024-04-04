@@ -146,7 +146,7 @@
         Gender : <input type="radio" name="gender" value=1 checked> male
                  <input type="radio" name="gender" value=0> female
         
-        Image : <input type="file" name="image" id="image" accept="image/*">
+        Image : <input type="file" name="image" id="image" accept="image/*" required>
         
         
         <input type="submit" value="Enter To The System">
@@ -222,7 +222,7 @@
                     <div class="upload">
                         <i class="fa fa-user" aria-hidden="true" style="font-size: 120px;"></i>
                         <div class="round">
-                            <input type="file" name="image" id="image" accept="image/*">
+                            <input type="file" name="image" id="image" accept="image/*" required>
                             <i class="fa fa-camera" style="color: #fff;"></i>
                         </div>
                     </div>
@@ -231,7 +231,7 @@
                         <div class="row my-2">
                             <div class="col-sm">
                                 <input type="text" class="form-control text-center" style="border-radius: 15px;"
-                                    placeholder="Player Name" name="name" id="name">
+                                    placeholder="Player Name" name="name" id="name" required>
                             </div>
                         </div>
                         
@@ -245,14 +245,14 @@
                         <div class="row my-2">
                             <div class="col-sm">
                                 <input type="email" class="form-control text-center" style="border-radius: 15px;"
-                                name="email" id="email" placeholder="Email">
+                                name="email" id="email" placeholder="Email" required>
                             </div>
                         </div>
                         
                         <div class="row my-2">
                             <div class="col-sm">
                                 <input type="password" class="form-control text-center" style="border-radius: 15px;"
-                                name="password" id="" placeholder="Password">
+                                name="password" id="" placeholder="Password" required>
                             </div>
                         </div>
                        <hr>
@@ -264,8 +264,8 @@
                             </div>
                             <div class="col-sm-9">
                                 <select name="role" id="role" class="form-select text-center"
-                                    style="border-radius: 15px;">
-                                    <option value="Top Order">Top Order Batsman</option>
+                                    style="border-radius: 15px;" required>
+                                    <option value="Top Order" selected>Top Order Batsman</option>
                                     <option value="Middle Order">Middle Order Batsman</option>
                                     <option value="Middle Order">Lower Order Batsman</option>
                                     <option value="Wicket-Keeper">Wicket-keeper Batsman</option>
@@ -287,7 +287,7 @@
                         <div class="row">
                             <div class="col-sm">
                                 <select name="battingStyle" id="battingstyle" class="form-select text-center"
-                                    style="border-radius: 15px;">
+                                    style="border-radius: 15px;" required>
                                     <option value="Right-hand Batsman" >Right-hand batsman</option>
                                     <option value="Left-hand Batsman" >Left-hand batsman</option>
 
@@ -306,7 +306,7 @@
                         <div class="row">
                             <div class="col-sm">
                                 <select id="bowling_style" class=" form-select text-center"
-                                    style="border-radius: 15px;" name="bowlingStyle">
+                                    style="border-radius: 15px;" name="bowlingStyle" required>
                                     <option value="Right-arm fast">Right-arm Fast</option>
                                     <option value="Right-arm Medium">Right-arm Medium</option>
                                     <option value="Left-arm fast">Left-arm Fast</option>
@@ -347,7 +347,7 @@
                                     style="font-size: 22px;margin-left: 20px;color:rgb(3, 3, 76);font-weight: bold;">Age :</label>
                             </div>
                             <div class="col-sm-9">
-                                <input type="number" class="form-control" style="border-radius: 15px;" name="age" id="age">
+                                <input type="number" class="form-control" style="border-radius: 15px;" name="age" id="age" required>
                             </div>
                         </div>
                         
@@ -367,7 +367,7 @@
                     
                 </form> 
                 </div>
-
+                <span class="mx-2 text-center font-bolder text-danger"> * All Fields Are Mandatory</span>
             </div>
             
         </div>

@@ -160,17 +160,18 @@
             </div>
         </div>
     </nav>
-
+    
     <div class="d-flex flex-row-reverse bg-light text-white">
+        
         <div class="p-2">
-            <a href="" style="padding: 15px;text-align: center;color: rgb(3,3,76);font-weight: bold;font-size: 18px;">All Players</a>
+            <a href="/playersummery/{{ auction.id }}/all" style="padding: 15px;text-align: center;color: rgb(3,3,76);font-weight: bold;font-size: 18px;">All Players</a>
         </div>
         <div class="p-2">
-            <a href="playersummery" style="border-right: 5px solid rgb(3,3,76);padding: 18px;color: rgb(3,3,76);font-weight: bold;font-size: 18px;margin-right: 5px;">Unsold List</a>
+            <a href="" style="border-right: 5px solid rgb(3,3,76);padding: 18px;color: rgb(3,3,76);font-weight: bold;font-size: 18px;margin-right: 5px;">Unsold List</a>
 
         </div>
         <div class="p-2">
-            <a href="" style="border-right: 5px solid rgb(3,3,76);border-left: 5px solid rgb(3,3,76);padding: 15px;color: rgb(3,3,76);font-weight: bold;font-size: 18px;">Sold List</a>
+            <a href="/playersummery/{{ auction.id }}/sold" style="border-right: 5px solid rgb(3,3,76);border-left: 5px solid rgb(3,3,76);padding: 15px;color: rgb(3,3,76);font-weight: bold;font-size: 18px;">Sold List</a>
         </div>
         </div>
     

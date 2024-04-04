@@ -70,7 +70,7 @@ class AuctionPlayer(models.Model):
     auctionId = models.ForeignKey('Auction', on_delete=models.CASCADE)
     playerId = models.ForeignKey('Player', on_delete=models.CASCADE)
     status = models.SmallIntegerField(default=0)
-    teamId = models.ForeignKey('Team', on_delete=models.DO_NOTHING)
+    teamId = models.ForeignKey('Team', on_delete=models.DO_NOTHING, null=True, blank=True)
 
 class Auction_teams(models.Model):
     auctionId = models.ForeignKey('Auction', on_delete=models.CASCADE)

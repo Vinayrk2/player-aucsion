@@ -126,8 +126,13 @@ def player_register(request):
         return render(request, 'player_register.html', {})
 
 
-def live_auction(request):
-    return render(request, 'live_auction.html', {})
+def live_auction(request, auctionid):
+    try:
+        auction = Auction.objects.get(id=auctionid)
+        print(auction)
+        return render(request, 'live_auction.html', {"auction":auction})
+    except Exception as e:
+        return render(request, "error.html", {"Error":"Page Not Found.", "code":404})
 
 def old_auction(request):
     return render(request, 'old_auction.html', {})
@@ -177,8 +182,28 @@ def auction_admin(request):
         return render(request, 'auction_admin.html', {})
     else:
         return render(request, "error.html", {'Error':"Unauthorized User Access ", "code":"403"})
-def player_summery(request):
-    return render(request, 'player_summery.html', {})
+
+
+def player_summery(request, auctionid ,detail):
+    try:
+        filterVal = ''
+        auction = Auction.objects.get(id=auctionid)
+        if detail == 'unsold':
+            players = auction.auctionplayer_set.filter(status=2)
+        elif detail == 'sold':
+            players = auction.auctionplayer_set.filter(status=1)
+        else:
+            players = auction.auctionplayer_set.all()
+            
+            
+        lis = []
+        for player in players:
+            p = Player.objects.get(id=player.id)
+            p.status = player.status
+            lis.append(p)     
+        return render(request, 'player_summery.html', {'players':lis})    
+    except Exception as e:
+        return render(request, "error.html", {'Error':e, "code":"403"})    
 
 def helppage(request):
     return render(request, 'helppage.html', {})
@@ -292,3 +317,7 @@ def addTeam(request):
     return render(request, "forms/addTeam.html",{})
     # return HttpResponseRedirect('getform?form=addteam')
 
+def allAuctions(request):
+    auctions = Auction.objects.all()
+
+    return render(request, "auctions.html", {'auctions':auctions})
