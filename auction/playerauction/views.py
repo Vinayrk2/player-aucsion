@@ -186,22 +186,31 @@ def auction_admin(request):
 
 def player_summery(request, auctionid ,detail):
     try:
+        players = ''
         filterVal = ''
         auction = Auction.objects.get(id=auctionid)
         if detail == 'unsold':
             players = auction.auctionplayer_set.filter(status=2)
         elif detail == 'sold':
             players = auction.auctionplayer_set.filter(status=1)
+        elif detail == 'teams':
+            teams = auction.team.all()
         else:
             players = auction.auctionplayer_set.all()
             
             
         lis = []
-        for player in players:
-            p = Player.objects.get(id=player.id)
-            p.status = player.status
-            lis.append(p)     
-        return render(request, 'player_summery.html', {'players':lis})    
+        if players != '' :
+            for player in players:
+                p = Player.objects.get(id=player.id)
+                p.status = player.status
+                lis.append(p) 
+        else:
+            for team in teams:
+                p = Team.objects.get(id=team.id)
+                lis.append(p) 
+
+        return render(request, 'player_summery.html', {'players':lis, 'user':'team'})    
     except Exception as e:
         return render(request, "error.html", {'Error':e, "code":"403"})    
 

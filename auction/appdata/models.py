@@ -62,7 +62,7 @@ class Auction(models.Model):
     maxBid = models.IntegerField(default=0)
     location = models.CharField(max_length=50)
     status  = models.SmallIntegerField(default=0)
-    team  = models.ManyToManyField('Auction', through='Auction_teams')
+    team  = models.ManyToManyField('Team', through='Auction_teams')
 
 
 # 0 - Remains, 1 - sold, 2 - unsold

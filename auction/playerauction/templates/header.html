@@ -125,9 +125,16 @@ integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQV
                     <a class="nav-link  tabs" href="teamprofile">Team Profile</a>
                 </li>
             {% endif %}
-                <li class="nav-item">
-                    <a class="nav-link  tabs" href="allauctions">Live Auctions</a>
-                </li>
+            {% if 'user' not in request.session or request.session.user != 1 %}
+            <li class="nav-item">
+                <a class="nav-link  tabs" href="allauctions">Live Auctions</a>
+            </li>
+            {% endif %}
+            {% if 'user' in request.session and request.session.user == 1 %}
+            <li class="nav-item">
+                <a class="nav-link  tabs" href="/adminhome">Auction Home</a>
+            </li>
+            {% endif %}
         </div>
     </div>
 </nav>
