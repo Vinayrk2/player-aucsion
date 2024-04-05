@@ -162,7 +162,13 @@
     </nav>
     
     <div class="d-flex flex-row-reverse bg-light text-white">
-        
+        {% if request.session.user == 1 %}
+        <div class="p-2">
+            <a  style="padding: 15px;text-align: center;color: rgb(3,3,76);font-weight: bold;font-size: 18px;">Get Random Player </a>
+        </div>
+        {% endif %}
+
+
         <div class="p-2">
             <a href="/playersummery/{{ auction.id }}/all" style="padding: 15px;text-align: center;color: rgb(3,3,76);font-weight: bold;font-size: 18px;">All Players</a>
         </div>

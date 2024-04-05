@@ -267,7 +267,10 @@ def adminReg(request):
 def adminHome(request):
 
     if request.session.get('user') and request.session.get("user") == 1:
-        return render(request,'admin_home.html',{})
+
+        admin = AuctionAdmin.objects.get(adminId = request.session['id'])
+        auctions = Auction.objects.filter(adminId = admin.id)
+        return render(request,'admin_home.html',{'auctions':auctions})
 
     else:
         return render(request, "error.html", {'Error':"Unauthorized User Access ", "code":"403"})

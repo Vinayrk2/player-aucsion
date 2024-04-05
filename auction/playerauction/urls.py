@@ -22,7 +22,7 @@ urlpatterns = [
     path('getform',views.getForm, name='getform'),
     path('addplayer',views.addPlayer, name='addplayer'),
     path('addteam',views.addTeam, name='addteam'),
-    path('allauctions', views.allAuctions, name='allAuction')
+    path('allauctions', views.allAuctions, name='allAuction'),
 
 
 ]   
