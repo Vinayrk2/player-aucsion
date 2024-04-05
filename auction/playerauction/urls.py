@@ -23,6 +23,6 @@ urlpatterns = [
     path('addplayer',views.addPlayer, name='addplayer'),
     path('addteam',views.addTeam, name='addteam'),
     path('allauctions', views.allAuctions, name='allAuction'),
-
+    path('auctiondone/<auctionid>', views.auctionDone, name='auctioncompleted')
 
 ]   

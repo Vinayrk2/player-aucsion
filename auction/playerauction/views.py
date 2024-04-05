@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse, HttpResponseRedirect
-from appdata.models import Player, Auction, AuctionAdmin, AuctionPlayer, Team, Login, Auction_teams
+from appdata.models import Player, Auction, AuctionAdmin, AuctionPlayer, Team, Login, Auction_teams, CurruntPlayer
 from playerauction.validate import *
 from sqlite3 import IntegrityError
 from django.contrib.auth import authenticate
@@ -129,10 +129,53 @@ def player_register(request):
 def live_auction(request, auctionid):
     try:
         auction = Auction.objects.get(id=auctionid)
-        print(auction)
-        return render(request, 'live_auction.html', {"auction":auction})
+        teams = auction.team.all()
+
+        if request.method == 'POST' and request.POST.get('team',0):
+            print(request.POST)
+            team = request.POST.get('team')
+            bid  = request.POST.get('bid')
+            player = request.POST.get('player')
+            CurruntPlayer.objects.filter(player=player).delete()
+
+            team = Team.objects.get(id=team)
+            player = Player.objects.get(id=player)
+            bid = int(bid)
+            auctionplayer = AuctionPlayer.objects.get(playerId=player)
+            auctionplayer.teamId = team
+            auctionplayer.status = 1
+            auctionplayer.save()
+
+            player = AuctionPlayer.objects.filter(auctionId=auction.id, status=0, teamId=None).order_by('?').first()
+            currentPlayer = CurruntPlayer.objects.create(player=player.id)
+            playerData = Player.objects.get(id=currentPlayer.player)
+            return render(request, 'live_auction.html', {"auction":auction, 'teams':teams, 'player':playerData})
+            
+            
+        if request.method == 'POST' and request.POST.get('random',0) : 
+            player = AuctionPlayer.objects.filter(auctionId=auction.id, status=0,  teamId=None).order_by('?').first()
+            if player:
+                playerData = Player.objects.get(id=player.id)
+                currentPlayer = CurruntPlayer.objects.create(player=player.id)
+                print(player)
+                return render(request, 'live_auction.html', {"auction":auction, 'teams':teams, 'player':playerData})
+            else:
+                auction.status = 2
+                auction.save()
+                return HttpResponseRedirect('/auctiondone') 
+        currentPlayer = CurruntPlayer.objects.all().last()
+        playerData = Player.objects.get(id=currentPlayer.player)
+        
+        # print(auction)
+        return render(request, 'live_auction.html', {"auction":auction, 'teams':teams, 'player':playerData})
     except Exception as e:
-        return render(request, "error.html", {"Error":"Page Not Found.", "code":404})
+        return render(request, "error.html", {"Error":e, "code":404})
+
+def auctionDone(request, auctionid):
+    auction = Auction.objects.get(id=auctionid)
+    players = AuctionPlayer.objects.filter(auctionId = auction.id)
+    teams = Auction_teams.objects.filter(auctionId=auction.id)
+    return render(request, 'auctiondone.html',{'auction':auction, 'players':players, 'teams':teams})
 
 def old_auction(request):
     return render(request, 'old_auction.html', {})
@@ -269,7 +312,7 @@ def adminHome(request):
     if request.session.get('user') and request.session.get("user") == 1:
 
         admin = AuctionAdmin.objects.get(adminId = request.session['id'])
-        auctions = Auction.objects.filter(adminId = admin.id)
+        auctions = Auction.objects.filter(adminId = admin.id, status = 0)
         return render(request,'admin_home.html',{'auctions':auctions})
 
     else:
@@ -333,3 +376,4 @@ def allAuctions(request):
     auctions = Auction.objects.all()
 
     return render(request, "auctions.html", {'auctions':auctions})
+
