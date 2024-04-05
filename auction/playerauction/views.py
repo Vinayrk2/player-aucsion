@@ -336,33 +336,33 @@ def addPlayer(request):
 
 def addTeam(request):
     if request.session.get('user') and request.session.get("user") == 1:
-        if request.method == "POST":
-            try:
-                admin = AuctionAdmin.objects.get(id=request.session.get("id")) 
-                teamId = request.POST.get("teamId")
+        # if request.method == "POST":
+        #     try:
+        #         # admin = AuctionAdmin.objects.get(adminId=request.session.get("id")) 
+        #         teamId = request.POST.get("teamId")
 
-                team = Team.objects.get(teamId=teamId)
+        #         team = Team.objects.get(teamId=teamId)
 
-                auctionid = request.POST.get("auctionid")
-                auction = Auction.objects.get(id=auctionid)
+        #         auctionid = request.POST.get("auctionid")
+        #         auction = Auction.objects.get(id=auctionid)
 
-                auctionTeam = Auction_teams()
-                auctionTeam.auctionId = auction
-                auctionTeam.teamId = team
-                auctionTeam.save()
+        #         auctionTeam = Auction_teams()
+        #         auctionTeam.auctionId = auction
+        #         auctionTeam.teamId = team
+        #         auctionTeam.save()
 
-            except IntegrityError as e:
-                return render(request, "error.html", {"Error":"TEam Already Exists", "code":"400"})
-                # return render(request, "error.html", {"Error":e})
+        #     except IntegrityError as e:
+        #         return render(request, "error.html", {"Error":"TEam Already Exists", "code":"400"})
+        #         # return render(request, "error.html", {"Error":e})
        
-            except Exception as e:
-                return render(request, "error.html", {"Error":e, "code":"404"})
-                # return render(request, "error.html", {"Error":e})
-        # auctions = Auction.objects.filter(adminId=request.session.get('id'))
-        # teams = Auction_teams.objects.select_related('teamId')
-        admin = AuctionAdmin.objects.get(id=request.session.get("id")) 
-        auctions = admin.auction_set.all()
-
+        #     except Exception as e:
+        #         return render(request, "error.html", {"Error":e, "code":"404"})
+        #         # return render(request, "error.html", {"Error":e})
+        # # auctions = Auction.objects.filter(adminId=request.session.get('id'))
+        # # teams = Auction_teams.objects.select_related('teamId')
+        # admin = AuctionAdmin.objects.get(id=request.session.get("id")) 
+        # auctions = admin.auction_set.all()
+        auctions = Auction.objects.all()
 
         return render(request, "forms/addteam.html", {'auctions':auctions})
         # return render(request, "forms/addteam.html", {'auctions':auctions})

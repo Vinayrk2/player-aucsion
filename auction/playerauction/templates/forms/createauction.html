@@ -2,13 +2,64 @@
 {% block content %}
     <form action="createauction" method="post">
         {% csrf_token %}
-        <h2> Auction Creation </h2>
+        {% comment %} <h2> Auction Creation </h2>
         Auction Id : <input type="text" name="auctionId" id=""><br>
         Auction Name : <input type="text" name="auctionName" id=""><br>
         Auction Initial Point : <input type="text" name="initialPoint" id=""><br>
         Auction Max Bid : <input type="text" name="maxBid" id=""><br>
         Auction Location : <input type="text" name="location" id=""><br>
         <input type="hidden" name="adminId" value="{{ user.id }}">
-        <button> Submit </button>
+        <button> Submit </button> {% endcomment %}
+        <div class="d-flex justify-content-center p-2" style="border:2px solid rgb(3,3,76)">
+            <h2>Auction Details</h2>
+        </div>
+        <div class="row my-3">
+            <div class="col-sm-4">   
+                <label for="Admin_ID" class="form-label" style="color: rgb(3, 3, 76);font-weight: bold;font-size:20px">Auction Id :</label> 
+            </div>
+            <div class="col-sm">
+                <input type="text" name="auctionId" id="" class="text-center form-control" style="border-radius: 25px;background-color: lightgray;">
+            </div>
+
+        </div>
+        <div class="row my-3">
+            <div class="col-sm-4">   
+                <label for="Admin_ID" class="form-label" style="color: rgb(3, 3, 76);font-weight: bold;font-size:20px">Auction Name :</label> 
+            </div>
+            <div class="col-sm">
+                <input type="text" name="auctionName" id="" class="text-center form-control" style="border-radius: 25px;background-color: lightgray;">
+            </div>
+          
+        </div>
+        <div class="row my-3">
+            <div class="col-sm">   
+                <label for="Admin_ID" class="form-label" style="color: rgb(3, 3, 76);font-weight: bold;font-size:20px">Auction Initial Point :</label> 
+            </div>
+            <div class="col-sm">
+                <input type="text" name="initialPoint" id="" class="text-center form-control" style="border-radius: 25px;background-color: lightgray;">
+            </div>
+           
+        </div>
+        <div class="row my-3">
+            <div class="col-sm">   
+                <label for="Admin_ID" class="form-label" style="color: rgb(3, 3, 76);font-weight: bold;font-size:20px">Auction Max Bid :</label> 
+            </div>
+            <div class="col-sm">
+                <input type="text" name="maxBid" id="" class="text-center form-control" style="border-radius: 25px;background-color: lightgray;">
+            </div>
+           
+        </div>
+        <div class="row my-3">
+            <div class="col-sm">   
+                <label for="Admin_ID" class="form-label" style="color: rgb(3, 3, 76);font-weight: bold;font-size:20px">Auction Location :</label> 
+            </div>
+            <div class="col-sm">
+                <input type="text" name="location" id="" class="text-center form-control" style="border-radius: 25px;background-color: lightgray;">
+            </div>
+           
+        </div>
+        <button class="btn d-block mx-auto my-4" style="background-color: rgb(3, 3, 76);color: white;font-weight: bold;"> Submit </button>
+        <input type="hidden" name="adminId" value="{{ user.id }}">
+   
     </form>
     {% endblock %}

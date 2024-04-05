@@ -8,9 +8,21 @@
     {% for auction in auctions %}
     <input type="hidden" name="auctionid" value="{{ auction.id }}">
     {% endfor %}
+    <div class=" d-flex justify-content-center">
     <h2> Add Teams </h2>
-    Team Id : <input type="text" name="teamId" id="id">
-    <button onclick="addTeam()"> Submit </button>
+    </div>
+    <div class="row my-5">
+        <div class="col-sm">
+            <label for="Admin_ID" class="form-label" style="color: rgb(3, 3, 76);font-weight: bold;font-size:20px">Team Id :</label> 
+        </div>
+        <div class="col-sm">
+            <input type="text" name="teamId" id="id" class="text-center form-control" style="border-radius: 25px;background-color: lightgray;">
+        </div>
+    </div>
+    {% comment %} Team Id :
+     <input type="text" name="teamId" id="id"> {% endcomment %}
+    {% comment %} <button onclick="addTeam()"> Submit </button> {% endcomment %}
+    <button class="btn d-block mx-auto my-4" style="background-color: rgb(3, 3, 76);color: white;font-weight: bold;" onclick="addTeam()"> Submit </button>
 </form>
 {% if teams %}
 {% for team in teams %}
