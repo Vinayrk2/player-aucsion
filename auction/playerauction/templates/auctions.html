@@ -7,12 +7,19 @@
     
     {% for auction in auctions %}
     <div class="col-sm-6">
-      <div class="card">
+      <div class="card"  style="background-color:skyblue">
         <div class="card-body">
-          <h5 class="card-title">{{ auction.auctionName }}</h5>
-          <p class="card-text">Date : {{ auction.date }}</p>
-          <p class="card-text">Location : {{ auction.location }}</p>
-          <a href="/liveauction/{{ auction.id }}" class="btn btn-primary">Go somewhere</a>
+          <div class="row">
+            <div class="col-sm-4">
+              <i class="fa fa-user " aria-hidden="true" style="font-size: 150px;justify-content:center;display:flex"></i>
+            </div>
+            <div class="col-sm-8">
+              <h5 class="card-title text-center border border-dark" style="font-weight:bold;font-size:30px">{{ auction.auctionName }}</h5>
+              <p class="card-text text-center" style="font-weight:bold;font-size:20px">Date : {{ auction.date }}</p>
+              <p class="card-text text-center" style="font-weight:bold;font-size:20px">Location : {{ auction.location }}</p>
+              <a href="/liveauction/{{ auction.id }}" class="btn btn-primary mx-auto d-block"  style="background-color:rgb(3,3,76)">Watch Live</a>
+            </div>
+          </div>
         </div>
       </div>
     </div>

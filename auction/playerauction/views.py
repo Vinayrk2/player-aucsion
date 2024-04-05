@@ -303,7 +303,7 @@ def adminReg(request):
             return render(request, 'error.html', {"Error":e, "code":"403"})
         
         
-        return HttpResponseRedirect('auctionadmin/login')
+        return HttpResponseRedirect('/auctionadmin/login')
     else:
         return render(request, 'adminReg.html', {})
 

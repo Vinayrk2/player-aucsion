@@ -15,6 +15,9 @@ class AuctionAdmin(models.Model):
     def save(self, *args, **kwargs):
         self.password = make_password(self.password)
         super().save(*args, **kwargs)
+    
+    # def __str__
+    
 
 class Team(models.Model):
     teamId = models.CharField(max_length=max_length_for_id, unique=True, null=False)
