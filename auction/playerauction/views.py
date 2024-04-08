@@ -371,8 +371,9 @@ def addTeam(request):
         # # teams = Auction_teams.objects.select_related('teamId')
         # admin = AuctionAdmin.objects.get(id=request.session.get("id")) 
         # auctions = admin.auction_set.all()
-        auctions = Auction.objects.all()
-
+                auctions = Auction.objects.all()
+            except Exception as e:
+                print(e)
         return render(request, "forms/addteam.html", {'auctions':auctions})
         # return render(request, "forms/addteam.html", {'auctions':auctions})
     else:
