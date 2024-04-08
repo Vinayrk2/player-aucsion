@@ -1,20 +1,49 @@
 {% extends '../admin_home.html' %}
 {% block content %}
-<form action="addplayer" method="post">
-    {% csrf_token %}
-    <h2> Add Players </h2>
-    Player Id : <input type="text" name="playerId" id="">
-    <button> Submit </button>
-</form>
+<div class="d-flex justify-content-center p-2" style="border:2px solid rgb(3,3,76)">
+        <form action="addplayer" method="post">
+            {% csrf_token %}
+        <h2>Fetch Player Details</h2>
+    </div>
+    <div class="row my-5">
+        <div class="col-sm-4">   
+            <label for="Admin_ID" class="form-label" style="color: rgb(3, 3, 76);font-weight: bold;font-size:20px">Player ID :</label> 
+        </div>
+        <div class="col-sm">
+            <input type="text" name="playerId" id="" class="text-center form-control" style="border-radius: 25px;background-color: lightgray;">
+        </div>
+        <button class="btn d-block mx-auto my-4" style="background-color: rgb(3, 3, 76);color: white;font-weight: bold;"> Submit </button>
+    </form>
+    </div>
+    {% comment %} <h2> Add Players </h2> 
+    <input type="text" name="playerId" id="">
+    <button> Submit </button> {% endcomment %}
+
 
 <div>
     {% if playerlist %}
         {% for player in playerlist %}
             <div>
-                <b>{{ player.image}} </b>
+                {% comment %} <b>{{ player.image}} </b> {% endcomment %}
+                <img src="{{ player.image }}">
                 <b>{{ player.name}} </b>
             </div>
         {% endfor %}
     {% endif %}
 </div>
+
 {% endblock %}
+
+{% comment %} <div class="container my-2">
+                            
+    <div class="row my-2">
+        <div class="col-sm-4">   
+            <label for="Admin_ID" class="form-label" style="color: rgb(3, 3, 76);font-weight: bold;font-size:20px">Player ID :</label> 
+        </div>
+        <div class="col-sm">
+            <input type="text" name="{{ request.session.id  }}" id="Admin_ID" class="text-center form-control" style="border-radius: 25px;background-color: lightgray;">
+        </div>
+        
+    </div>
+    <button class="btn d-block mx-auto my-4" style="background-color: rgb(3, 3, 76);color: white;font-weight: bold;" type="submit">Fetch Player Details</button>
+</div> {% endcomment %}

@@ -15,6 +15,9 @@ class AuctionAdmin(models.Model):
     def save(self, *args, **kwargs):
         self.password = make_password(self.password)
         super().save(*args, **kwargs)
+    
+    # def __str__
+    
 
     def __str__(self):
         return self.name
