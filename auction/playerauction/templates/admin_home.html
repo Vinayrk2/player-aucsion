@@ -17,7 +17,7 @@
         {% if auctions %}
         <option value="" disabled selected> -- Select  Auction to Start -- </option>
         {% for auction in auctions %}
-        <option value="{{ auction.id }}"> {{ auction.auctionName}} </option>
+        <option value="{{ auction.id }}"> {{ auction.auctionName}} - {{auction.status}} </option>
         {% endfor %}
         {% endif %}
     </select>

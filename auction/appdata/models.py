@@ -6,7 +6,7 @@ from datetime import date
 max_length_for_id = 40
 
 class AuctionAdmin(models.Model):
-    adminId = models.CharField(max_length=40, unique=True, null=False)
+    adminid = models.CharField(max_length=40, unique=True, null=False)
     email    = models.EmailField(max_length=200, unique=True)
     password = models.CharField(max_length=256)
     subscription = models.BooleanField(default=True)
@@ -15,6 +15,9 @@ class AuctionAdmin(models.Model):
     def save(self, *args, **kwargs):
         self.password = make_password(self.password)
         super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.name
 
 class Team(models.Model):
     teamId = models.CharField(max_length=max_length_for_id, unique=True, null=False)
@@ -26,7 +29,8 @@ class Team(models.Model):
         super().save(*args, **kwargs)
     logo    = models.ImageField(upload_to="team/",default=None, null=True)
     captainId = models.OneToOneField('Player', on_delete=models.DO_NOTHING, null=True, default=None)
-
+    def __str__(self):
+        return self.name
 
 
 class Player(models.Model):
@@ -43,7 +47,8 @@ class Player(models.Model):
     def save(self, *args, **kwargs):
         self.password = make_password(self.password)
         super().save(*args, **kwargs)
-
+    def __str__(self):
+        return self.name
 
 class Login(models.Model):
     role  = models.SmallIntegerField()
@@ -62,21 +67,25 @@ class Auction(models.Model):
     maxBid = models.IntegerField(default=0)
     location = models.CharField(max_length=50)
     status  = models.SmallIntegerField(default=0)
-    team  = models.ManyToManyField('Team', through='Auction_teams')
-
+    # team  = models.ManyToManyField('Team', through='Auction_teams')
+    def __str__(self):
+        return self.auctionName    
 
 # 0 - Remains, 1 - sold, 2 - unsold
 class AuctionPlayer(models.Model):
-    auctionId = models.ForeignKey('Auction', on_delete=models.CASCADE)
-    playerId = models.ForeignKey('Player', on_delete=models.CASCADE)
+    auction = models.ForeignKey('Auction', on_delete=models.CASCADE)
+    player = models.ForeignKey('Player', on_delete=models.CASCADE)
     status = models.SmallIntegerField(default=0)
-    teamId = models.ForeignKey('Team', on_delete=models.DO_NOTHING, null=True, blank=True)
+    team = models.ForeignKey('Team', on_delete=models.DO_NOTHING, null=True, blank=True)
+    def __str__(self):
+        return f"{self.auctionId} - {self.playerId}"
 
 class CurruntPlayer(models.Model):
     player = models.IntegerField()
 
 class Auction_teams(models.Model):
-    auctionId = models.ForeignKey('Auction', on_delete=models.CASCADE)
-    teamId    = models.ForeignKey('Team', on_delete=models.CASCADE)
+    auction = models.ForeignKey('Auction', on_delete=models.CASCADE)
+    team    = models.ForeignKey('Team', on_delete=models.CASCADE)
     points    = models.IntegerField(default=0)
-
+    def __str__(self):
+        return f"{self.auction} {self.team} {self.points}"

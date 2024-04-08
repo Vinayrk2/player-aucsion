@@ -163,6 +163,7 @@
     
     <div class="d-flex flex-row-reverse bg-light text-white">
         {% if request.session.user == 1 and auction.status == 1%}
+        {% if auction.status == 1 %}
         <div class="p-2">
             <form action="" method="post">
                 <input type="hidden" name="random" value="true">
@@ -170,6 +171,7 @@
                 <button> Get RAndom Player</button>
             </form>
         </div>
+        {% endif %}
         {% endif %}
 
 

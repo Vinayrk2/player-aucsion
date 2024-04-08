@@ -50,7 +50,7 @@ def login(request, user):
                 encoded = user.password
                 if check_password(password, encoded):
                     request.session['user'] = 1
-                    request.session['id'] = user.adminId
+                    request.session['id'] = user.adminid
                     request.session['entity'] = user.name
                 else:
                     raise Exception("Incorrect Password")                    
@@ -127,54 +127,63 @@ def player_register(request):
 
 
 def live_auction(request, auctionid):
-    try:
-        auction = Auction.objects.get(id=auctionid)
-        teams = auction.team.all()
+    # try:
+    auction = Auction.objects.get(id=auctionid)
+    # teams = auction.team.all()
+    teams = Auction_teams.objects.filter(auction__id=auction.id)
 
-        if request.method == 'POST' and request.POST.get('team',0):
-            print(request.POST)
-            team = request.POST.get('team')
-            bid  = request.POST.get('bid')
-            player = request.POST.get('player')
-            CurruntPlayer.objects.filter(player=player).delete()
+    if request.method == 'POST' and request.POST.get('team',0) :
+        print(request.POST)
+        team = request.POST.get('team')
+        bid  = request.POST.get('bid')
+        player = request.POST.get('player')
+        CurruntPlayer.objects.filter(player=player).delete()
 
-            team = Team.objects.get(id=team)
-            player = Player.objects.get(id=player)
-            bid = int(bid)
-            auctionplayer = AuctionPlayer.objects.get(playerId=player)
-            auctionplayer.teamId = team
-            auctionplayer.status = 1
-            auctionplayer.save()
+        team = Team.objects.get(id=team)
+        player = Player.objects.get(id=player)
+        bid = int(bid)
+        auctionplayer = AuctionPlayer.objects.get(player=player)
+        auctionplayer.teamId = team
+        auctionplayer.status = 1
+        auctionplayer.save()
 
-            player = AuctionPlayer.objects.filter(auctionId=auction.id, status=0, teamId=None).order_by('?').first()
-            currentPlayer = CurruntPlayer.objects.create(player=player.id)
-            playerData = Player.objects.get(id=currentPlayer.player)
-            return render(request, 'live_auction.html', {"auction":auction, 'teams':teams, 'player':playerData})
-            
-            
-        if request.method == 'POST' and request.POST.get('random',0) : 
-            player = AuctionPlayer.objects.filter(auctionId=auction.id, status=0,  teamId=None).order_by('?').first()
-            if player:
-                playerData = Player.objects.get(id=player.id)
-                currentPlayer = CurruntPlayer.objects.create(player=player.id)
-                print(player)
-                return render(request, 'live_auction.html', {"auction":auction, 'teams':teams, 'player':playerData})
-            else:
-                auction.status = 2
-                auction.save()
-                return HttpResponseRedirect('/auctiondone') 
-        currentPlayer = CurruntPlayer.objects.all().last()
+        player = AuctionPlayer.objects.filter(auction=auction, status=0, team=None).order_by('?').first()
+        currentPlayer = CurruntPlayer.objects.create(player=player.id)
         playerData = Player.objects.get(id=currentPlayer.player)
-        
-        # print(auction)
         return render(request, 'live_auction.html', {"auction":auction, 'teams':teams, 'player':playerData})
-    except Exception as e:
-        return render(request, "error.html", {"Error":e, "code":404})
+        
+        
+    if request.method == 'POST' and request.POST.get('random',0) : 
+        player = AuctionPlayer.objects.filter(auction=auction, status=0,  team=None).order_by('?').first()
+        if player:
+            playerData = Player.objects.get(id=player.id)
+            currentPlayer = CurruntPlayer.objects.create(player=player.id)
+            print(player)
+            return render(request, 'live_auction.html', {"auction":auction, 'teams':teams, 'player':playerData})
+        else:
+            auction.status = 2
+            auction.save()
+            return HttpResponseRedirect('/auctiondone/'+str(auction.id)) 
+
+    if request.method == "POST" and request.POST.get("auction") and auction.status == 0:
+        auction.status = 1
+        auction.save()
+        
+    # currentPlayer = CurruntPlayer.objects.all().last()
+    # playerData = Player.objects.get(id=currentPlayer.player)
+    
+    # print(auction)
+    return render(request, 'live_auction.html', {"auction":auction, 'teams':teams})
+    # except Exception as e:
+    #     return render(request, "error.html", {"Error":e, "code":404})
 
 def auctionDone(request, auctionid):
     auction = Auction.objects.get(id=auctionid)
-    players = AuctionPlayer.objects.filter(auctionId = auction.id)
-    teams = Auction_teams.objects.filter(auctionId=auction.id)
+    players = AuctionPlayer.objects.filter(auction__id=auction.id)
+    # players = 
+    teams = Auction_teams.objects.filter(auction=auction).select_related('team')
+    # print(teams)
+    
     return render(request, 'auctiondone.html',{'auction':auction, 'players':players, 'teams':teams})
 
 def old_auction(request):
@@ -311,8 +320,8 @@ def adminHome(request):
 
     if request.session.get('user') and request.session.get("user") == 1:
 
-        admin = AuctionAdmin.objects.get(adminId = request.session['id'])
-        auctions = Auction.objects.filter(adminId = admin.id, status = 0)
+        admin = AuctionAdmin.objects.get(adminid = request.session['id'])
+        auctions = Auction.objects.filter(adminId = admin.id)
         return render(request,'admin_home.html',{'auctions':auctions})
 
     else:
@@ -338,7 +347,7 @@ def addTeam(request):
     if request.session.get('user') and request.session.get("user") == 1:
         if request.method == "POST":
             try:
-                admin = AuctionAdmin.objects.get(id=request.session.get("id")) 
+                admin = AuctionAdmin.objects.get(adminid=request.session.get("id")) 
                 teamId = request.POST.get("teamId")
 
                 team = Team.objects.get(teamId=teamId)
